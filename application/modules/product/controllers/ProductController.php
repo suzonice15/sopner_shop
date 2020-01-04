@@ -22,12 +22,93 @@ class ProductController extends MX_Controller
 
 		$data['main'] = "Products";
 		$data['active'] = "View Products";
-		$this->config->load('pagination');
-		$config = array();
-		$product_title = $this->input->post('product_title');
+		//$this->config->load('pagination');
+//		$config = array();
+//		$product_title = $this->input->post('product_title');
+//		$this->load->library("pagination");
+//		$config = array();
+//		$config["base_url"] = base_url() . "product/ProductController/index";
+//		$config["uri_segment"] = 4;
+//		$config["use_page_numbers"] = TRUE;
+//		$config["full_tag_open"] = '<ul class="pagination">';
+//		$config["full_tag_close"] = '</ul>';
+//		$config["first_tag_open"] = '<li>';
+//		$config["first_tag_close"] = '</li>';
+//		$config["last_tag_open"] = '<li>';
+//		$config["last_tag_close"] = '</li>';
+//		$config['next_link'] = '&gt;';
+//		$config["next_tag_open"] = '<li>';
+//		$config["next_tag_close"] = '</li>';
+//		$config["prev_link"] = "&lt;";
+//		$config["prev_tag_open"] = "<li>";
+//		$config["prev_tag_close"] = "</li>";
+//		$config["cur_tag_open"] = "<li class='active'><a href='#'>";
+//		$config["cur_tag_close"] = "</a></li>";
+//		$config["num_tag_open"] = "<li>";
+//		$config["num_tag_close"] = "</li>";
+//
+//
+//		if ($product_title) {
+//			$config["total_rows"] = $this->MainModel->countByLikeCondition("product_title", $product_title, "product");
+//		} else {
+//			$config["total_rows"] = $this->MainModel->countAll('product');
+//		}
+//
+//
+//		$config['per_page'] =3000;
+//		$counter = $this->input->post('counter');
+//		if (!empty($counter)) {
+//			if ($counter == 1) {
+//				$config['per_page'] = $config["total_rows"];
+//			} else {
+//				$config['per_page'] = $counter;
+//			}
+//
+//		}
+//		$config['uri_segment'] = 4;
+//		$config['num_links'] = 5;
+//		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+//		$this->pagination->initialize($config);
+//
+//		if ($product_title) {
+//			$data["products"] = $this->MainModel->select_all_data_by_name($config["per_page"], $page, 'product_title', $product_title, 'product', 'product_id desc');
+//
+//		} else {
+//			$data["products"] = $this->MainModel->select_all_data_by_limit($config["per_page"], $page, 'product', 'product_id desc');
+//		}
+//
+//
+//		$data["links"] = $this->pagination->create_links();
+//		if ($this->input->is_ajax_request()) {
+//
+//			$this->load->view('product/products/products_ajax', $data);
+//
+//		} else {
+			$data['pageContent'] = $this->load->view('product/products/products_index', $data, true);
+			$this->load->view('layouts/main', $data);
+		//}
+
+
+	}
+
+
+	function pagination()
+	{
+		$this->load->model("ProductModel");
 		$this->load->library("pagination");
 		$config = array();
-		$config["base_url"] = base_url() . "product/ProductController/index";
+		$config["base_url"] = "#";
+		
+	$search=$this->input->post('search');
+		if($search){
+			$config["total_rows"] = $this->ProductModel->count_all_by_search($search);
+
+
+		} else {
+
+			$config["total_rows"] = $this->ProductModel->count_all();
+		}
+		$config["per_page"] = 10;
 		$config["uri_segment"] = 4;
 		$config["use_page_numbers"] = TRUE;
 		$config["full_tag_open"] = '<ul class="pagination">';
@@ -46,49 +127,37 @@ class ProductController extends MX_Controller
 		$config["cur_tag_close"] = "</a></li>";
 		$config["num_tag_open"] = "<li>";
 		$config["num_tag_close"] = "</li>";
-
-
-		if ($product_title) {
-			$config["total_rows"] = $this->MainModel->countByLikeCondition("product_title", $product_title, "product");
-		} else {
-			$config["total_rows"] = $this->MainModel->countAll('product');
-		}
-
-
-		$config['per_page'] =3000;
-		$counter = $this->input->post('counter');
-		if (!empty($counter)) {
-			if ($counter == 1) {
-				$config['per_page'] = $config["total_rows"];
-			} else {
-				$config['per_page'] = $counter;
-			}
-
-		}
-		$config['uri_segment'] = 4;
-		$config['num_links'] = 5;
-		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+		$config["num_links"] = 3;
 		$this->pagination->initialize($config);
+		if($search){
+			$page =1;
 
-		if ($product_title) {
-			$data["products"] = $this->MainModel->select_all_data_by_name($config["per_page"], $page, 'product_title', $product_title, 'product', 'product_id desc');
 
 		} else {
-			$data["products"] = $this->MainModel->select_all_data_by_limit($config["per_page"], $page, 'product', 'product_id desc');
+
+			$page = $this->uri->segment(4);
+		}
+
+		$start = ($page - 1) * $config["per_page"];
+
+		if($search){
+
+			$output = array(
+				'pagination_link'  => $this->pagination->create_links(),
+				'country_table'   => $this->ProductModel->fetch_product_by_search($config["per_page"], $start,$search)
+			);
+
+
+		} else {
+
+			$output = array(
+				'pagination_link'  => $this->pagination->create_links(),
+				'country_table'   => $this->ProductModel->fetch_products($config["per_page"], $start)
+			);
 		}
 
 
-		$data["links"] = $this->pagination->create_links();
-		if ($this->input->is_ajax_request()) {
-
-			$this->load->view('product/products/products_ajax', $data);
-
-		} else {
-			$data['pageContent'] = $this->load->view('product/products/products_index', $data, true);
-			$this->load->view('layouts/main', $data);
-		}
-
-
+		echo json_encode($output);
 	}
 
 	public function create()

@@ -8,15 +8,19 @@
 							<form method="POST">
 								<div class="btnarea">
 									<div class="row">
-										<div class="col-md-2 col-sm-6 col-xs-12 pull-right">
+										<div class="col-md-2 col-sm-6 col-xs-12 ">
 											<a href="<?= base_url('product-create') ?>" class="btn btn-success">Add
 												New</a>
 											<input type="submit" name="delete" value="Delete" id="deleteAll"
 												   onclick="return confirm('Are you want to delete this information :press Ok for delete otherwise Cancel')"
 												   class="btn btn-danger" id="del_all" data-table="product"/>
-
 										</div>
+										<div class="col-md-2 col-sm-6 col-xs-12 pull-right">
 
+											<input type="text"   placeholder="Search Products" id="search"
+
+												   class="form-control" id="del_all" />
+										</div>
 
 									</div>
 							</form>
@@ -24,6 +28,8 @@
 
 
 								<div id="ajaxdata" class="table-responsive">
+
+									<!--
 									<table id="example1" class="table table-bordered table-striped">
 										<thead>
 										<tr>
@@ -49,20 +55,6 @@
 											$i = 0;
 
 											foreach ($products as $prod) {
-
-
-//												$categoryName = get_result("SELECT * FROM  category
-//join term_relation on term_relation.term_id=category.category_id
-//WHERE product_id=$prod->product_id");
-//												foreach ($categoryName as $category) {
-//													$category_title[] = $category->category_title;
-//
-//
-//												}
-//												$category_name = implode(',', $category_title);
-//												unset($category_title);
-
-
 												$featured_image = get_product_meta($prod->product_id, 'featured_image');
 												$featured_image = get_media_path($featured_image);
 												$link=base_url().'product/'.$prod->product_name;
@@ -103,16 +95,6 @@
 														   href="<?php echo base_url() ?>product-edit/<?php echo $prod->product_id ?>"
 														<span class="glyphicon glyphicon-edit btn btn-success"></span>
 														</a>
-
-
-<!--														<a title="delete"-->
-<!--														   id="deleteSingleAll"-->
-<!--														   onclick="return confirm('Are you want to delete this information :press Ok for delete otherwise Cancel')">-->
-<!--															<span-->
-<!--																class="glyphicon glyphicon-trash btn btn-danger"></span>-->
-<!--														</a>-->
-
-
 													</td>
 												</tr>
 												<?php
@@ -123,10 +105,15 @@
 										?>
 										</tbody>
 									</table>
-								</div>
+								-->
 
+								</div>
+						<div align="right" id="pagination_link"></div>
 						</div>
-						<?php echo $links; ?>
+
+
+
+
 					</div>
 				</div>
 			</div>
@@ -138,28 +125,10 @@
 </div>
 </div>
 
-<script>
-	$(document).ready(function () {
-		$(".pagination a").attr('onclick', 'return main_page_pagination($(this));');
-	});
-</script>
 
-<script>
-	function main_page_pagination($this) {
-		var url = $this.attr("href");
 
-		if (url != '') {
-			$.ajax({
-				type: "POST",
-				url: url,
-				success: function (msg) {
-					$("#ajaxdata").html(msg);
-				}
-			});
-		}
-		return false;
-	}
-</script>
+
+
 
 <script>
 	function search_content() {
@@ -209,9 +178,11 @@
 
 <script>
 
-	$('#checkAll').change(function () {
+	//$('#checkAll').change(function () {
+		$(document).on("change", "#checkAll", function(event){
 
-		if ($(this).is(":checked")) {
+
+			if ($(this).is(":checked")) {
 
 			$('.checkAll').prop('checked', true);
 
@@ -265,3 +236,55 @@
 	});
 
 </script>
+
+
+
+<script>
+	$(document).ready(function(){
+
+
+		function load_country_data(page)
+		{
+
+
+			$.ajax({
+				url:"<?php echo base_url(); ?>product/ProductController/pagination/"+page,
+				method:"GET",
+				dataType:"json",
+				success:function(data)
+				{
+
+					$('#ajaxdata').html(data.country_table);
+					$('#pagination_link').html(data.pagination_link);
+				}
+			});
+		}
+
+		load_country_data(1);
+
+		$(document).on("click", ".pagination li a", function(event){
+
+			event.preventDefault();
+			var page = $(this).data("ci-pagination-page");
+
+			load_country_data(page);
+		});
+		$(document).on('input','#search' ,function () {
+			var search=$('#search').val();
+			$.ajax({
+				url:"<?php echo base_url(); ?>product/ProductController/pagination",
+				method:"post",
+				data:{search:search},
+				dataType:"json",
+				success:function(data)
+				{
+
+					$('#ajaxdata').html(data.country_table);
+					$('#pagination_link').html(data.pagination_link);
+				}
+			});
+		});
+
+	});
+</script>
+
