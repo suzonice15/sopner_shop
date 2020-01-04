@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6" style="margin-top: 70px">
 
 
             <form action="<?php echo base_url() ?>affiliate/mobile_login_check" method="post">
@@ -30,7 +30,7 @@
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 
                             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                                <input type="submit" id="user_login" class="btn btn-success btn-sm" value="Sign In">
+                                <input type="submit" id="user_login"  style="background-color: #138496" class="btn btn-success " value="Sign In">
                             </div>
                             <div class="btn-group" role="group" aria-label="Third group">
                                 <a target="_blank" href="<?php echo base_url() ?>home/password_reset"
@@ -87,7 +87,7 @@
                         <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 
                             <div class="btn-group mr-2" role="group" aria-label="Second group">
-                                <input type="submit" id="user_login" class="btn btn-success btn-sm" value="Signup">
+                                <input type="submit" style="background-color: #138496" id="user_login" class="btn btn-success btn-sm" value="Signup">
                             </div>
 
                         </div>

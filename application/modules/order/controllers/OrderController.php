@@ -87,8 +87,6 @@ class OrderController extends CI_Controller
             $row_data['customer_email'] = $this->input->post('customer_email');
             $row_data['customer_address'] = $this->input->post('customer_address');
             $row_data['delevery_address'] = $this->input->post('delevery_address');
-            $row_data['bkash_payment'] = $this->input->post('bkash_payment');
-            $row_data['city'] = $this->input->post('city');
             $row_data['shipment_time'] = date("Y-m-d H:i:s");
             $row_data['created_time'] = date("Y-m-d H:i:s");
             $row_data['modified_time'] = date("Y-m-d");
@@ -182,8 +180,14 @@ class OrderController extends CI_Controller
 
         $order_status = $this->input->post('order_status');
         $shipping_charge = $this->input->post('shipping_charge');
+        $shipping_charge_in_ajax = $this->input->post('shipping_charge_in_ajax');
         $data['modified_time'] = date("Y-m-d H:i:s");
-        $data['order_total'] = $this->input->post('order_total')+$shipping_charge;
+        if($shipping_charge_in_ajax>0) {
+            $data['order_total'] = $this->input->post('order_total') + $shipping_charge;
+        } else {
+
+            $data['order_total'] = $this->input->post('order_total') ;
+        }
         $data['products'] = serialize($this->input->post('products'));
         $data['customer_name'] = $this->input->post('customer_name');
         $data['customer_phone'] = $this->input->post('customer_phone');
@@ -193,9 +197,10 @@ class OrderController extends CI_Controller
         $data['shipping_charge'] = $this->input->post('shipping_charge');
         $data['discount'] = $this->input->post('discount');
         $data['order_note'] = $this->input->post('order_note');
-        $data['bkash_payment'] = $this->input->post('bkash_payment');
-        $data['payment_type'] = $this->input->post('payment_type');
-        $data['city'] = $this->input->post('city');
+
+        $data['shipment_time'] = date("Y-m-d H:i:s", strtotime($this->input->post('shipment_time')));
+
+
         if ($order_status == 'delivered') {
             $results = $this->MainModel->select_product_id_by_order_id($order_number);
 
@@ -218,15 +223,10 @@ class OrderController extends CI_Controller
             }
         }
 
-
         $customer_name = $data['customer_name'];
         $customer_email = $data['customer_email'];
         $site_title = get_option('site_title');
         $site_email = get_option('email');
-
-
-        $data['shipment_time'] = date('Y-m-d h:i s', strtotime($this->input->post('shipment_time')));
-
         $config['protocol'] = 'sendmail';
         $config['charset'] = 'utf-8';
         $config['wordwrap'] = TRUE;
@@ -694,6 +694,17 @@ class OrderController extends CI_Controller
                     $proColorlist = $product_co->product_color;
                 }
                 $productColor = explode(',', $proColorlist);
+                if($prod->discount_price){
+                    $sell_price = floatval($prod->discount_price);
+                    $sell_price=$sell_price;
+
+                } else {
+                    $sell_price = floatval($prod->product_price);
+                    $sell_price=$sell_price;
+
+
+
+                }
                 $subtotal = ($sell_price * $qty);
                 $totalamout[] = $subtotal;
                 $featured_image = get_product_thumb($prod->product_id, 'thumb');
@@ -757,8 +768,8 @@ class OrderController extends CI_Controller
 							<span class="extra bold">Delivery Cost</span>
 						</td>
 						<td  class="text-right">
-							<span class="bold"><span id="delivery_cost"><input type="text" name="shipping_charge" class="form-control"></span></span>
-							' . form_hidden('shipping_charge', $delivery_cost) . '
+							<span class="bold"><span id="delivery_cost"><input type="text" id="shipping_charge_suzon" name="shipping_charge" class="form-control"></span></span>
+							
 						
 						</td>
 					</tr>
@@ -904,9 +915,11 @@ class OrderController extends CI_Controller
 							<span class="extra bold">Delivery Cost</span>
 						</td>
 						<td class="text-right">
-							<span  class="bold"><span id="delivery_cost"><input type="text" name="shipping_charge" class="form-control"></span></span>
-							
-							' . form_hidden('shipping_charge_Out', $delivery_cost_Out_Side_Dhaka) . '
+							<span  class="bold"><span id="delivery_cost"><input type="text"  id="shipping_charge_suzon" name="shipping_charge" class="form-control">
+							<input type="hidden"  id="shipping_charge_suzon" name="shipping_charge_in_ajax" value="10" class="form-control">
+							</span></span>
+						
+						
 						</td>
 					</tr>
 					<tr>

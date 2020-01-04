@@ -89,7 +89,6 @@ function convert_number($int)
 {
 	$eng_number = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
 	$bng_number = array('১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯', '০');
-
 	$converted = str_replace($eng_number, $bng_number, $int);
 	return $converted;
 }
@@ -116,7 +115,7 @@ function formatted_price($price, $currency_left=true, $seperate_currecy=false)
 		}
 		else
 		{
-			$return = '৳  '.number_format($price, 2);
+			$return = 'Tk. '.number_format($price, 2);
 		}
 	}
 

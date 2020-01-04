@@ -7,10 +7,7 @@
             <section class="content">
                 <div class="row">
                     <div class="col-md-12">
-
                         <?php
-
-
                         $order_id = $order->order_id;
                         $service_cost = $order->order_id;
                         ?>
@@ -29,7 +26,7 @@
                                                 <tbody>
                                                 <tr>
                                                     <td>
-                                                        <p><b>Date:</b>
+                                                        <p><b> Created Date:</b>
                                                             <?php
                                                                 // $created_time = $order->created_time;
                                                                 $created_time = date('H:i:s a d-M-Y', strtotime($order->created_time));
@@ -47,9 +44,6 @@
                                                         <p><b>Email:</b> <?= $order->customer_email; ?></p>
                                                         <p><b>Customer Address: </b><?= $order->customer_address; ?>
                                                         </p>
-                                                        <p><b>Delevery Address: </b><?= $order->delevery_address; ?>
-                                                        </p>
-                                                        <p><b>City: </b><span id="city"><?= $order->city; ?></span></p>
                                                     </td>
                                                 </tr>
                                                 </tbody>
@@ -84,25 +78,14 @@
 
 									
 										<div class="form-group ">
-                                            <label for="billing_address1"> Address line 1 </label>
+                                            <label for="billing_address1"> Customer Address  </label>
                                             <input class="form-control" name="customer_address"
                                                    value="<?= $order->customer_address ?>		">
 
 
                                         </div>
-												<div class="form-group ">
-                                                    <label for="billing_address1"> Address line 2 </label>
-                                                    <input type="text" class="form-control" name="delevery_address"
-                                                           value="<?= $order->delevery_address ?>	">
-
-                                                </div>
-
-												<div class="form-group ">
-                                                    <label for="billing_address1">City </label>
-                                                    <input class="form-control" name="city" value="<?= $order->city ?>">
 
 
-                                                </div>
 
 									</span>
                                         </div>
@@ -122,16 +105,16 @@
                                                 $order_area = 'inside_dhaka';
                                             }
                                             ?>
-                                            <div hidden class="form-group" id="order_area">
+                                            <div  class="form-group" id="order_area">
                                                 <label>
                                                     <input type="radio" name="order_area" value="inside_dhaka"
-                                                           id="inside_dhaka" <?= $order_area == 'inside_dhaka' ? 'checked' : NULL ?>>
+                                                           id="inside_dhaka" <?= $order_area == 'inside' ? 'checked' : NULL ?>>
                                                     Inside Dhaka
                                                 </label>
                                                 <br/>
                                                 <label>
                                                     <input type="radio" id="outside_dhaka" name="order_area"
-                                                           value="outside_dhaka" <?= $order_area == 'outside_dhaka' ? 'checked' : NULL ?>>
+                                                           value="outside_dhaka" <?= $order_area == 'outside' ? 'checked' : NULL ?>>
                                                     Outside Dhaka
                                                 </label>
                                             </div>
@@ -158,7 +141,7 @@
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
                                                     <?php
-                                                    $shipment_time = date('m/d/Y', strtotime($order->shipment_time));
+                                                    $shipment_time = date('d/m/Y', strtotime($order->shipment_time));
 
                                                     ?>
                                                     <input type="text" name="shipment_time"
@@ -191,19 +174,13 @@
 
                                             </div>
 
-                                            <div class="form-group">
+                                            <div  hidden class="form-group">
                                                 <label>Payment type </label>
                                                 <input name="payment_type" value="<?php echo $order->payment_type; ?>"
                                                        class="form-control">
-
-
                                             </div>
 
-                                            <div class="form-group">
-                                                <label>Bkash transaction id</label>
-                                                <input name="bkash_payment" value="<?php echo $order->bkash_payment; ?>"
-                                                       class="form-control">
-                                            </div>
+
                                         </div>
                                         <div class="box-footer">
                                             <input type="hidden" name="row_id" value="<?= $order->order_id ?>">
@@ -388,7 +365,7 @@
                                                 <td class="text-right">
 		<span class="bold">৳ <span
                 id="delivery_cost"><?= $order->shipping_charge.'.00'; ?></span>
-				<input type="hidden" id="shipping_charge" name="shipping_charge" value="<?= $order->shipping_charge; ?>"/>
+				<input type="hidden" id="shipping_charge_suzon" name="shipping_charge" value="<?= $order->shipping_charge; ?>"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -442,6 +419,13 @@
 
         <script>
             document.forms['order_update'].elements['order_status'].value = "<?php echo $order->order_status;?>";
+            $(document).on('input change click', '#order_update #shipping_charge_suzon', function () {
+                var charge=$(this).val();
+                var subtotal_cost=$('#order_update #subtotal_cost').text();
+                var total=parseFloat(charge)+parseFloat(subtotal_cost);
+                $('#total_cost').text(total.toFixed(2));
+
+            });
 
             $(document).ready(function () {
                 $(document).on('change', '#product_ids', function () {
@@ -527,11 +511,7 @@
                     var product_ids = [];
                     var product_qtys = [];                
                    var shipping_charge= $('#shipping_charge').val();
-
-
-         
-
-                    $.each($("form#checkout .item_qty, form#order_update .item_qty"), function () {
+				   $.each($("form#checkout .item_qty, form#order_update .item_qty"), function () {
                         product_ids.push($(this).attr('data-item-id'));
                         product_qtys.push($(this).val());
                     });

@@ -31,7 +31,7 @@
                             <label for="email">Order status</label>
                             <select class="form-control select2" id="order_status" name="order_status">
                                 <option value="">--select--</option>
-                                
+
                                 <option value="new">New</option>
                                 <option value="pending_payment">Pending for Payment</option>
                                 <option value="processing">On Process</option>
@@ -40,7 +40,7 @@
                                 <option value="refund">Refunded</option>
                                 <option value="cancled">Cancelled</option>
                                 <option value="completed">Completed</option>
-								<option value="1">All</option>
+                                <option value="1">All</option>
                             </select>
                         </div>
                     </div>
@@ -125,7 +125,7 @@
                         <th>Created By</th>
                         <th>Amount</th>
                         <th>Status</th>
-                        <th>Affiliater</th>
+
                         <th>Date & Time</th>
                         <th>Actions&nbsp;</th>
                     </tr>
@@ -184,7 +184,7 @@
 
                             $html .= '<td> ' .formatted_price($row->order_total ). '</td>';
                             $html .= '<td>' . $order_status . '</td>';
-                            $html .= '<td> <a href="#" class="btn btn-info">' . $name . '</a></td>';
+
 
 
                             $html .= '<td>' . date('H:i:s a d-M-Y', strtotime($row->created_time)) . '</td>

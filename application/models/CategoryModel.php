@@ -162,27 +162,26 @@ Class CategoryModel extends CI_Model
 		return $this->db->insert_id();
 	}
 
-	public function scroll_pagination_product($category_id,$start,$limit)
+	public function scroll_pagination_product($category_id)
 	{
 
 
 
-		$this->db->select('product_name,product.product_id,product_title,product_price,discount_price,sku,product_stock,discount_type');
+		$this->db->select('DISTINCT (product.product_id),product_name,product.product_id,product_title,product_price,discount_price,sku,product_stock,discount_type');
 		$this->db->from('product');
 		$this->db->join('term_relation', 'product.product_id = term_relation.product_id');
 		$this->db->where('term_relation.term_id', $category_id);
 		$this->db->order_by('product.modified_time', 'DESC');
-		$this->db->limit($limit, $start);
 		$result = $this->db->get();
 		return $result->result();
 	}
 
-	public function scroll_related_product($category_id,$start,$limit)
+	public function scroll_category_product($category_id,$start,$limit)
 	{
 
 
 
-		$this->db->select('product_name,product.product_id,product_title,product_price,discount_price,sku,product_stock,discount_type');
+		$this->db->select('distinct(product_name),product.product_id,product_title,product_price,discount_price,sku,product_stock,discount_type');
 		$this->db->from('product');
 		$this->db->join('term_relation', 'product.product_id = term_relation.product_id');
 		$this->db->where_in('term_relation.term_id', $category_id);
@@ -207,5 +206,21 @@ Class CategoryModel extends CI_Model
 		$result = $this->db->get();
 		return $result->result();
 	}
+
+	public function scroll_related_product($category_id,$start,$limit)
+	{
+
+
+
+		$this->db->select('distinct(product_name),product.product_id,product_title,product_price,discount_price,sku,product_stock,discount_type');
+		$this->db->from('product');
+		$this->db->join('term_relation', 'product.product_id = term_relation.product_id');
+		$this->db->where_in('term_relation.term_id', $category_id);
+		$this->db->order_by('product.modified_time', 'DESC');
+		$this->db->limit($limit, $start);
+		$result = $this->db->get();
+		return $result->result();
+	}
+
 
 }

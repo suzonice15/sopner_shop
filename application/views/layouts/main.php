@@ -81,7 +81,7 @@
 		<div style="margin-bottom: -8px;" class="callout callout-success">
 
 
-			<p>Welcome to Ekusheyshop
+			<p>Welcome to <?= get_option('site_title') ?>
 
 				</p>
 		</div>

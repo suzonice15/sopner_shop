@@ -70,8 +70,8 @@ if($category->parent_id==0) {
                 <td><?php echo ++$count; ?></td>
                 <td><?php echo '-' . $sub->category_title; ?></td>
                 <td><?php echo $sub->category_name; ?></td>
-                <td><?php echo $category->rank_order; ?></td>
-                <td><?php echo $category->category_id; ?></td>
+                <td><?php echo $sub->rank_order; ?></td>
+                <td><?php echo $sub->category_id; ?></td>
                 <td><a title="edit"
                        href="<?php echo base_url() ?>category-edit/<?php echo $sub->category_id; ?>"
                     <span class="glyphicon glyphicon-edit btn btn-success"></span>
@@ -96,8 +96,8 @@ if($category->parent_id==0) {
                         <td><?php echo ++$count; ?></td>
                         <td><?php echo '--' . $subSub->category_title; ?></td>
                         <td><?php echo $subSub->category_name; ?></td>
-                        <td><?php echo $category->rank_order; ?></td>
-                        <td><?php echo $category->category_id; ?></td>
+                        <td><?php echo $subSub->rank_order; ?></td>
+                        <td><?php echo $subSub->category_id; ?></td>
                         <td><a title="edit"
                                href="<?php echo base_url() ?>category-edit/<?php echo $subSub->category_id; ?>"
                             <span class="glyphicon glyphicon-edit btn btn-success"></span>

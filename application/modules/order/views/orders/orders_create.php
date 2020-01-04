@@ -30,16 +30,7 @@
 									<input name="customer_phone"  type="text" class="form-control"  id="customer_phone_valid" value="" />
 <span id="customer_phone_error" style="color:red"></span>
 								</div>
-								<div class="form-group">
-									<label for="billing_name">City<span class="text-danger">*</span></label>
-
-									<select required name="city" id="city" class="form-control">
-										<option value="">select city</option>
-										<?php foreach ($districts as $row) : ?>
-											<option value="<?php echo $row->name; ?>"><?php echo $row->name; ?></option>
-										<?php endforeach; ?>
-									</select>
-								</div>
+							
 								<div class="form-group shipping-address-group ">
 									<label for="shipping_address1">Customer Address  </label>
 									<textarea class="form-control" rows="5" name="delevery_address" id="shipping_address1"></textarea>
@@ -90,7 +81,7 @@
 								</div>
 								
 								
-								<div   class="form-group" >
+								<div  hidden  class="form-group" >
 									<label>BKash Transaction Id</label>
 										<input type="text" class="form-control" name="bkash_payment" value=""   > 
 									
@@ -266,7 +257,14 @@ $(document).ready(function () {
 	</script>
 
 	<script>
+		$(document).on('input change click', '#checkout #shipping_charge_suzon', function () {
 
+			var charge=$(this).val();
+			var subtotal_cost=$('#checkout #subtotal_cost').text();
+			var total=parseFloat(charge)+parseFloat(subtotal_cost);
+			$('#total_cost').text(total.toFixed(2));
+
+		});
 
 		$('#customer_phone_valid').on('blur', function () {
 

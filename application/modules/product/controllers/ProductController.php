@@ -94,12 +94,14 @@ class ProductController extends MX_Controller
 	public function create()
 	{
 
-		//$data['random_number'] = rand(1000,9999);
-		$query="SELECT sku FROM `product` ORDER BY  product_id DESC limit 1";
-
-	$sku = $this->MainModel->SingleQueryData($query);
-		$sku_number=$sku->sku+1;
-		$data['random_number'] = $sku_number;
+//		//$data['random_number'] = rand(1000,9999);
+//		$query="SELECT sku FROM `product` ORDER BY  product_id DESC limit 1";
+//
+//	$sku = $this->MainModel->SingleQueryData($query);
+//		if($sku) {
+//			$sku_number = $sku->sku + 1;
+//			$data['random_number'] = $sku_number;
+//		}
 
 
 		$data['title'] = "";
@@ -203,7 +205,7 @@ class ProductController extends MX_Controller
 
 			if($this->input->post('featured_image_link'))
 			{
-				$uploaded_file_path = str_replace(array('http://localhost/ekusheshop/', 'http://demo.aynabd.net/'), '', $this->input->post('featured_image_link'));
+				$uploaded_file_path = str_replace(array('http://localhost/sopnershop/', 'http://demo.shopnershop.com/'), '', $this->input->post('featured_image_link'));
 
 				$media_data 					= array();
 				$media_data['media_title'] 		= $row_data['product_title'];
@@ -255,7 +257,7 @@ class ProductController extends MX_Controller
 
 			if($this->input->post('product_image4_link') || $this->input->post('product_image1_link') || $this->input->post('product_image2_link') || $this->input->post('product_image3_link'))
 			{
-				$uploaded_file_path = str_replace(array('http://localhost/ekusheshop/', 'http://demo.aynabd.net/'), '', $this->input->post('product_image1_link'));
+				$uploaded_file_path = str_replace(array('http://localhost/sopnershop/', 'http://demo.shopnershop.com/'), '', $this->input->post('product_image1_link'));
 
 				$media_data 					= array();
 				$media_data['media_title'] 		= $row_data['product_title'];
@@ -265,7 +267,7 @@ class ProductController extends MX_Controller
 
 				$gallery_image[] = $this->MainModel->add_new_media($media_data);
 
-				$uploaded_file_path = str_replace(array('http://localhost/ekusheshop/', 'http://demo.aynabd.net/'), '', $this->input->post('product_image2_link'));
+				$uploaded_file_path = str_replace(array('http://localhost/sopnershop/', 'http://demo.shopnershop.com/'), '', $this->input->post('product_image2_link'));
 
 				$media_data 					= array();
 				$media_data['media_title'] 		= $row_data['product_title'];
@@ -275,7 +277,7 @@ class ProductController extends MX_Controller
 
 				$gallery_image[] = $this->MainModel->add_new_media($media_data);
 
-				$uploaded_file_path = str_replace(array('http://localhost/ekusheshop/', 'http://demo.aynabd.net/'), '', $this->input->post('product_image3_link'));
+				$uploaded_file_path = str_replace(array('http://localhost/sopnershop/', 'http://demo.shopnershop.com/'), '', $this->input->post('product_image3_link'));
 
 				$media_data 					= array();
 				$media_data['media_title'] 		= $row_data['product_title'];
@@ -285,7 +287,7 @@ class ProductController extends MX_Controller
 
 				$gallery_image[] = $this->MainModel->add_new_media($media_data);
 
-				$uploaded_file_path = str_replace(array('http://localhost/ekusheshop/', 'http://demo.aynabd.net/'), '', $this->input->post('product_image4_link'));
+				$uploaded_file_path = str_replace(array('http://localhost/sopnershop/', 'http://demo.shopnershop.com/'), '', $this->input->post('product_image4_link'));
 
 				$media_data 					= array();
 				$media_data['media_title'] 		= $row_data['product_title'];
@@ -513,7 +515,7 @@ class ProductController extends MX_Controller
 
 			if($this->input->post('featured_image_link'))
 			{
-				$uploaded_file_path = str_replace(array('http://localhost/ekusheshop/', 'http://demo.aynabd.net/'), '', $this->input->post('featured_image_link'));
+				$uploaded_file_path = str_replace(array('http://localhost/sopnershop/', 'http://demo.shopnershop.com/'), '', $this->input->post('featured_image_link'));
 
 				$media_data 					= array();
 				$media_data['media_title'] 		= $row_data['product_title'];
@@ -567,7 +569,7 @@ class ProductController extends MX_Controller
 			{
 				if($this->input->post('product_image1_link'))
 				{
-					$uploaded_file_path = str_replace(array('http://localhost/ekusheshop/', 'http://demo.aynabd.net/'), '', $this->input->post('product_image1_link'));
+					$uploaded_file_path = str_replace(array('http://localhost/sopnershop/', 'http://demo.shopnershop.com/'), '', $this->input->post('product_image1_link'));
 
 					$media_data 					= array();
 					$media_data['media_title'] 		= $row_data['product_title'];
@@ -580,7 +582,7 @@ class ProductController extends MX_Controller
 
 				if($this->input->post('product_image2_link'))
 				{
-					$uploaded_file_path = str_replace(array('http://localhost/ekusheshop/', 'http://demo.aynabd.net/'), '', $this->input->post('product_image2_link'));
+					$uploaded_file_path = str_replace(array('http://localhost/sopnershop/', 'http://demo.shopnershop.com/'), '', $this->input->post('product_image2_link'));
 
 					$media_data 					= array();
 					$media_data['media_title'] 		= $row_data['product_title'];
@@ -593,7 +595,7 @@ class ProductController extends MX_Controller
 
 				if($this->input->post('product_image3_link'))
 				{
-					$uploaded_file_path = str_replace(array('http://localhost/ekusheshop/', 'http://demo.aynabd.net/'), '', $this->input->post('product_image3_link'));
+					$uploaded_file_path = str_replace(array('http://localhost/sopnershop/', 'http://demo.shopnershop.com/'), '', $this->input->post('product_image3_link'));
 
 					$media_data 					= array();
 					$media_data['media_title'] 		= $row_data['product_title'];
@@ -605,7 +607,7 @@ class ProductController extends MX_Controller
 				}
 				if($this->input->post('product_image4_link'))
 				{
-					$uploaded_file_path = str_replace(array('http://localhost/ekusheshop/', 'http://demo.aynabd.net/'), '', $this->input->post('product_image4_link'));
+					$uploaded_file_path = str_replace(array('http://localhost/sopnershop/', 'http://demo.shopnershop.com/'), '', $this->input->post('product_image4_link'));
 
 					$media_data 					= array();
 					$media_data['media_title'] 		= $row_data['product_title'];
@@ -687,13 +689,19 @@ class ProductController extends MX_Controller
 
 				$term_data['product_id'] = $product_id;
 
-				foreach ($categories as $cat) {
-					$term_data['term_id'] = $cat;
 
-				//	$this->prod->add_new_term_relation($term_data);
-					$this->MainModel->insertData('term_relation', $term_data);
 
-				}
+				$this->MainModel->deleteData('product_id', $product_id, 'term_relation');
+	foreach ($categories as $cat) {
+		$term_data['term_id'] = $cat;
+
+
+		//	$this->prod->add_new_term_relation($term_data);
+		$this->MainModel->insertData('term_relation', $term_data);
+
+
+}
+
 
 				/*# media relation #*/
 				if (isset($featured_image) && !empty($featured_image)) {

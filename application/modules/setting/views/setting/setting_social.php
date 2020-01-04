@@ -25,7 +25,7 @@
 
 
 				<div class="form-group <?=form_error('instagram') ? 'has-error' : ''?>">
-					<label for="instagram">Instagram</label>
+					<label for="instagram">Linkind</label>
 					<input type="text" class="form-control" name="instagram" id="instagram" value="<?=get_option('instagram')?>">
 				</div>
 			</div>

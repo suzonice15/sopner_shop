@@ -29,12 +29,12 @@ if ($user) {
         margin-top: -23px;
         position: relative;
         top: -21px;
-        left: 62px;
+        left: 55px;
         color: white;
     }
     .quantity_value{
         display: inline-block;
-        margin-left: 5px;
+        margin-left: 7px;
     }
 
 
@@ -60,15 +60,81 @@ if ($user) {
 
 </style>
 
-<br>
+<style>
+    .home_print_mobile_class{
 
+    }
+    .thank_you_class{
+        font-size: 20px;
+        background-color:
+            green;
+        width: 98%;
+        height: auto;
+        margin-top: 28px;
+        color:
+            white;
+        padding: 8px 8px;
+    }
 
-<div class="container container-fullwidth">
+    @media (max-width: 576px) {
+        .thank_you_class{
+            font-size: 20px;
+            background-color:
+                green;
+            width: 100%;
+            height: auto;
+            margin-top: 28px;
+            color:
+                white;
+            padding: 8px 8px;
+        }
+        .order_tank_you_class{
+            width: 107%;
+        }
+    }
+</style>
 
-    <div class="row">
+<div class="ecod_strip">
+    <div class="wrapper">
+        <div class="eCOD_notification">
+            <ul class="regular eCOD_slider" id="eCOD_block">
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="ecod_strip">
+    <div class="wrapper">
+        <div class="eCOD_notification">
+            <ul class="regular eCOD_slider" id="eCOD_block">
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="ecod_strip">
+    <div class="wrapper">
+        <div class="eCOD_notification">
+            <ul class="regular eCOD_slider" id="eCOD_block">
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="ecod_strip">
+    <div class="wrapper">
+        <div class="eCOD_notification">
+            <ul class="regular eCOD_slider" id="eCOD_block">
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row order_tank_you_class">
         <?php if (!empty($cart_items)) { ?>
 
-            <div class="col-md-12 ">
+            <div class="col-md-12  col-lg-12 col-12 ">
 
 
                 <div class="card">
@@ -142,7 +208,7 @@ margin-left: 20px;">
                                                         <div
                                                             onclick="DecrementFunction('quantity_value_<?= $items['id'] ?>','<?= $items['rowid'] ?>')"
                                                             class="qtyminus  decrement_class col-md-1 col-6"
-                                                            data-action_type="minus">-
+                                                            data-action_type="minus" style="cursor:pointer">-
                                                         </div>
                                                     </div>
                                                 </td>
@@ -260,10 +326,10 @@ margin-left: 20px;">
                                         </tr>
                                         </tbody>
                                     </table>
-									  <a style="margin-left: 1px;" href="<?php echo base_url()?>chechout"  class="btn btn-primary btn-sm add_to_cart_cart_page  mobile_add_to_cart ">Checkout</a>
+									  <a style="margin-left: 1px;" href="<?php echo base_url()?>chechout"  class="btn btn-info">Checkout</a>
 
 
-                    <a style="background-color:red;"  href="<?php echo base_url()?>"  class="cart_mobile_page btn btn-primary btn-sm add_to_cart_cart_page  mobile_add_to_cart  " >continue shopping</a>
+                    <a  href="<?php echo base_url()?>"    style="background-color:#FF6061;border: none" class="btn btn-info" >continue shopping</a>
                                 </div>
                             </div>
                     </div>
@@ -287,6 +353,7 @@ margin-left: 20px;">
     </div>
 
 </div>
+
 <input type="hidden" id="order_id" value="">
 
 <script>

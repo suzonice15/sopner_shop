@@ -120,6 +120,14 @@ $route['slider-list'] = 'slider/SliderController/index';
 $route['slider-update'] = 'slider/SliderController/update';
 
 
+
+/*********************** subscriber list  ***********************/
+
+$route['subscriber-list'] = 'subscribe/SubscribeController/index';
+$route['subscriber-status/(:any)'] = 'subscribe/SubscribeController/status/$1';
+
+
+
 /*********************** ADD  ***********************/
 
 $route['add-create'] = 'add/AddController/create';
@@ -209,7 +217,9 @@ $route['product/(:any)'] = 'Home/product/$1';
 $route['pages/(:any)'] = 'Home/pages/$1';
 $route['search'] = 'Home/search';
 $route['cart'] = 'Home/cart';
-$route['all-products'] = 'Home/all_products';
+$route['popular'] = 'Home/popular_product';
+$route['tend'] = 'Home/tend_product';
+$route['trackorder/(:any)'] = 'Home/trackorder/$1';
 
 
 

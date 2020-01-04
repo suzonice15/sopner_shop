@@ -483,7 +483,7 @@ function get_category_products($category_id, $limit, $initial_limit=NULL)
 {
 	
 	$ci=get_instance();
-	$ci->db->select('product_name,product.product_id,product_title,product_price,discount_price,sku,product_stock,discount_type');
+	$ci->db->select('distinct(product_name),product.product_id,product_title,product_price,discount_price,sku,product_stock,discount_type');
 	$ci->db->from('product');
 	$ci->db->join('term_relation', 'product.product_id = term_relation.product_id');
 	$ci->db->where('term_relation.term_id', $category_id);

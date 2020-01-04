@@ -321,3 +321,14 @@
     max-width: none;
     float: none;
 }
+
+.cart_money_icon {
+    position: fixed;
+    right: 18px;
+    top: 319px;
+    border: 2px solid
+    #ddd;
+    z-index: 999999;
+    width: 72px;
+    height: 70px;
+}

@@ -54,7 +54,7 @@
 						<li><a href="<?php echo base_url(); ?>users">
 								<i class="fa fa-arrow-circle-o-right"></i> Admin user </a>
 						</li>
-						<li><a href="<?php echo base_url(); ?>affiliate-user">
+						<li hidden ><a href="<?php echo base_url(); ?>affiliate-user">
 								<i class="fa fa-arrow-circle-o-right"></i> General user </a>
 						</li>
 					</ul>
@@ -74,7 +74,7 @@
 					<li><a href="<?php echo base_url(); ?>order-create">
 							<i class="fa fa-arrow-circle-o-right"></i> Add New </a>
 					</li>
-					<li ><a href="<?php echo base_url(); ?>order/OrderController/tryorder">
+					<li hidden ><a href="<?php echo base_url(); ?>order/OrderController/tryorder">
 							<i class="fa fa-arrow-circle-o-right"></i> Try Orders </a>
 					</li>
 					<li><a href="<?php echo base_url(); ?>order-list">
@@ -130,10 +130,10 @@
 							<i class="fa fa-arrow-circle-o-right"></i> Demurrage Products </a>
 					</li>
 					-->
-					<li><a href="<?php echo base_url(); ?>product-size">
+					<li hidden ><a href="<?php echo base_url(); ?>product-size">
 							<i class="fa fa-arrow-circle-o-right"></i> Products Size </a>
 					</li>
-					<li><a href="<?php echo base_url(); ?>product-color">
+					<li hidden ><a href="<?php echo base_url(); ?>product-color">
 							<i class="fa fa-arrow-circle-o-right"></i> Products Color </a>
 					</li>
 
@@ -151,11 +151,19 @@
 				</a>
 			</li>
 
-			<li class="">
+			<li hidden class="">
 				<a href="<?php echo base_url(); ?>review-list">
 					<i class="fa fa-dashboard"></i> <span>Reviews</span>
 				</a>
 			</li>
+
+
+			<li  class="">
+				<a href="<?php echo base_url(); ?>subscriber-list">
+					<i class="fa fa-dashboard"></i> <span>Subscribers</span>
+				</a>
+			</li>
+
 
 			<?php
 
@@ -188,7 +196,7 @@
 				</ul>
 			</li>
 
-				<li class="treeview">
+				<li hidden class="treeview">
 					<a href="#">
 						<i class="fa fa-dashboard"></i>
 						<span>Affiliate Program </span>
@@ -234,7 +242,7 @@
 
 				</ul>
 			</li>
-			<li><a href="<?php echo base_url(); ?>page-list"> <i class="fa fa-wrench"></i> <span>Pages</span>
+			<li><a href="<?php echo base_url(); ?>page-list"> <i class="fa fa-dashboard"></i> <span>Pages</span>
 				</a></li>
 
 

@@ -1,14 +1,12 @@
-<div class="container container-fullwidth" style="margin-bottom: 50px">
-	<div class="container-fluid">
+	<div class="container-fluid mt-4">
 		<ul class="breadcrumb">
 			<li><a href="<?=base_url()?>">Home</a>/</li>
 			<li class="active">Contact Us</li>
 		</ul>
 
 	</div>
-</div>
 
-<div class="container">
+<div class="ml-5 container-fluid">
 <div class="row text-center ">
 <div class="col-lg-12 col-md-12 col-sm-12 col-12 ">
 	<nav class="text-center">
@@ -23,11 +21,16 @@
 		<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
 
-			<h1 class="mt-4">ekusheyshop.com</h1>
+			<h1 class="mt-4">Shopner Shop</h1>
 
 
-			<h3>Address:160 Muktobangla Shopping Complex
-				(7th Floor)Mirpur-1, Dhaka.</h3>
+			<address>
+
+				<br/>
+
+				60 Mitford Road, M.K Tower 2nd Floor <br>(Shop No:3, Dhaka 1100
+				01995-507733
+			</address>
 
 		</div>
 		<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
@@ -101,7 +104,7 @@
 		</div>
 		<div class="tab-pane fade" id="nav-location" role="tabpanel" aria-labelledby="nav-location-tab">
 
-			<iframe style="border: 0;" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.4060704517337!2d90.35303631498238!3d23.804155184562926!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c0e739c94d33%3A0xc45e8fc22eac24f3!2sHimel+Shop!5e0!3m2!1sen!2sbd!4v1498031264477" allowfullscreen="" width="1000" height="450" frameborder="0"></iframe>
+<iframe style="border: 0;" src="<?= get_option('google_map') ?>" allowfullscreen="" width="1000" height="450" frameborder="0"></iframe>
 
 		</div>
 	</div>
@@ -110,39 +113,43 @@
 </div>
 </div>
 <script>
-	$('#submit_information').click(function () {
-		var name=$('input[name=name]').val();
-		var phone=$('input[name=phone]').val();
-		var subject=$('input[name=subject]').val();
-		var message=$('textarea[name=message]').val();
+	jQuery('#submit_information').click(function () {
+		var name=jQuery('input[name=name]').val();
+		var phone=jQuery('input[name=phone]').val();
+		var subject=jQuery('input[name=subject]').val();
+		var message=jQuery('textarea[name=message]').val();
 
 
 		if(name.length<3){
-			$('#name_error').text('Enter Your Name');
+			jQuery('#name_error').text('Enter Your Name');
 		}  if(phone.length<11){
-			$('#phone_error').text('Enter Your Phone Number');
+			jQuery('#phone_error').text('Enter Your Phone Number');
 		}  if(message.length<1) {
 
-			$('#message_error').text('Enter Your Message');
+			jQuery('#message_error').text('Enter Your Message');
 
 		}
 		if(subject.length<1) {
 
-			$('#subject_error').text('Enter Your subject');
+			jQuery('#subject_error').text('Enter Your subject');
 
 		}
 
 		else {
-			$.ajax({
+			jQuery('#name_error').text('');
+			jQuery('#phone_error').text('');
+			jQuery('#message_error').text('');
+			jQuery('#subject_error').text('');
+			jQuery.ajax({
 				type: "POST",
 				url:'<?php echo base_url()?>/inquery/InqueryController/store',
 		     	data:{name:name,phone:phone,subject:subject,message:message},
 				success:function (data) {
-				$('#error').text(data);
-					var name=$('input[name=name]').val('');
-					var phone=$('input[name=phone]').val('');
-					var subject=$('input[name=subject]').val('');
-					var message=$('textarea[name=message]').val('');
+				jQuery('#error').text(data);
+					var name=jQuery('input[name=name]').val('');
+					var phone=jQuery('input[name=phone]').val('');
+					var subject=jQuery('input[name=subject]').val('');
+					var message=jQuery('textarea[name=message]').val('');
 
 
 

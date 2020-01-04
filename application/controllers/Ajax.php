@@ -501,255 +501,6 @@ public function changepw()
 }
 
 
-public function scroll_pagination_product()
-{
-
-	$output = '<div class="row">';
-	$category_id = $this->input->post('category_id');
-	$limit = $this->input->post('limit');
-	$start = $this->input->post('start');
-	$products = $this->CategoryModel->scroll_pagination_product($category_id, $start, $limit);
-
-
-	if (count($products) > 0) {
-		$i = 1;
-		foreach ($products as $product) {
-
-			//$product_link = base_url($product->product_name);
-			$product_link = base_url().'product/'.$product->product_name;
-
-			$product_availability = NULL;
-			$stock_qty = intval(get_product_meta($product->product_id, 'stock_qty'));
-			if (!$stock_qty) {
-				$product_availability = '<div class="availability">Out of Stock</div>';
-			}
-
-			$discount = false;
-
-
-			$product_price = $sell_price = $product->product_price;
-
-			$sku = $product->sku;
-			$product_discount = $product->discount_price;
-			$discount_type = $product->discount_type;
-
-
-			if ($product_discount != 0) {
-				$discount = true;
-
-				$product_discount = $save_money = floatval($product_discount);
-
-				if ($discount_type == 'fixed') {
-					$sell_price = ($product_price - $product_discount);
-				} elseif ($discount_type == 'percent') {
-					$save_money = ($product_discount / 100) * $product_price;
-					$sell_price = floatval($product_price - $save_money);
-				}
-			}
-
-			$featured_image = get_product_meta($product->product_id, 'featured_image');
-			$featured_image = get_media_path($featured_image, 'thumb');
-
-
-			$output .= '<div class="col-md-2 col-lg-2 border col-6 col-sm-3">
-				<a  style="padding: 0px;height: 180px;overflow: hidden;" class="img-hover col-sm-12 padding-zero" href="' . $product_link . '"   >
-					<img class="img-fluid pt-3   w-100" style="margin: 0 auto;padding:5px" src="' . $featured_image . '" alt="' . $product->product_title . '"/>
-				</a>
-				<div class="text-danger text-center  font-weight-bold">
-					<del>' . formatted_price($product_price) . '</del>
-				
-			<span class="text-success">' . formatted_price($sell_price) . '
-				
-				</div>
-				<h6 class="text-center">
-					<a class="text-decoration-none	" href="' . $product_link. '">' . $product->product_title . '
-					</a>
-				</h6>
-			</div>';
-
-
-		}
-		$output .= '</div>';
-
-		echo $output;
-
-
-	}
-
-
-}
-
-
-public function scroll_related_product(){
-
-$output = '<div class="row">';
-$category_id = $this->input->post('category_id');
-$limit = $this->input->post('limit');
-$start = $this->input->post('start');
-$related_products = $this->CategoryModel->scroll_related_product($category_id, $start, $limit);
-
-
-foreach ($related_products as $rel_prod) {
-	/*# product price and discount #*/
-	$rel_prod_discount = false;
-
-	$rel_product_price = $rel_sell_price = $rel_prod->product_price;
-
-	$product_discount = $rel_prod->discount_price;
-	$discount_type = $rel_prod->discount_type;
-
-	if ($product_discount != 0) {
-		$rel_prod_discount = true;
-
-		$product_discount = $save_money = floatval($product_discount);
-
-		if ($discount_type == 'fixed') {
-			$rel_sell_price = ($rel_product_price - $product_discount);
-		} elseif ($discount_type == 'percent') {
-			$save_money = ($product_discount / 100) * $rel_product_price;
-			$rel_sell_price = floatval($rel_product_price - $save_money);
-		}
-	}
-	$_product_title = strip_tags($rel_prod->product_title);
-	$image = get_product_thumb($rel_prod->product_id, 'thumb');
-
-
-		$link=base_url().'product/'.$rel_prod->product_name;
-
-$output .='<div class="border col-md-2 col-6">
-		<a class="text-decoration-none	" href="'.$link .'">	
-			<img class="img-fluid pt-3 zoomEffect"
-				 src="'.$image.'"
-				 title="Button Video Camera" alt="Button Video Camera"
-				 data-src="http://www.kalerhaat.com/uploads/PicsArt_08-07-10.02.40.jpg">
-		</a>
-		<div class=" text-center font-weight-bold">
-			<del class="text-danger">'.formatted_price($rel_product_price).'</del>
-	
-	<span class="text-success">'.formatted_price($rel_sell_price).'
-				</span>
-		</div>
-		<div class="text-center">
-			<h6><a class="text-decoration-none	" href="'.$link .'">
-				'.$_product_title.'
-			</a></h6>
-		</div></div>';
-
-}
-$output .='</div>';
-echo $output;
-
-}
-
-
-
-public  function  scroll_home_product(){
-
-	$output = '<div class="row">';
-	//$category_id = $this->input->post('category_id');
-	$limit = $this->input->post('limit');
-	$start = $this->input->post('start');
-	$home = 'home';
-	$home_products = $this->CategoryModel->scroll_home_product( $start, $limit,$home);
-
-
-	foreach ($home_products as $rel_prod) {
-		/*# product price and discount #*/
-		$rel_prod_discount = false;
-
-		$rel_product_price = $rel_sell_price = $rel_prod->product_price;
-
-		$product_discount = $rel_prod->discount_price;
-		$discount_type = $rel_prod->discount_type;
-		$discount_price_product='';
-		if ($product_discount > 0) {
-			$rel_prod_discount = true;
-
-			$product_discount = $save_money = floatval($product_discount);
-
-			if ($discount_type == 'fixed') {
-				$rel_sell_price = ($rel_product_price - $product_discount);
-			} elseif ($discount_type == 'percent') {
-				$save_money = ($product_discount / 100) * $rel_product_price;
-				$rel_sell_price = floatval($rel_product_price - $save_money);
-			}
-			$taka='<span class="font-weight-bold">৳</span>';
-			$discount_price_product='<del>'.formatted_price($rel_product_price).'</del>';
-
-		}
-		$_product_title = strip_tags($rel_prod->product_title);
-		$image = get_product_thumb($rel_prod->product_id, 'thumb');
-
-
-		$link=base_url().'product/'.$rel_prod->product_name;
-
-		$output .='<div class="border col-md-2 col-6">
-		<a class="text-decoration-none	" href="'.$link .'">	
-			<img class="img-fluid pt-3 zoomEffect"
-				 src="'.$image.'"
-				 title="Button Video Camera" alt="Button Video Camera"
-				 data-src="http://www.kalerhaat.com/uploads/PicsArt_08-07-10.02.40.jpg">
-		</a><div class="text-danger text-center">
-			'.$discount_price_product.' <span class="text-success">'.formatted_price($rel_sell_price).'
-				</span>
-		</div>
-		
-		<div class="text-center">
-			<a class="text-decoration-none	" href="'.$link .'">
-				'.$_product_title.'
-			</a>
-		</div></div>';
-
-	}
-	$output .='</div>';
-	echo $output;
-
-die();
-}
-
-public  function  product_filter(){
-
-
-
-	$category_id = $this->input->post('category_id');
-	//$per_page = $this->input->post('per_page');
-	$sorting = $this->input->post('sorting');
-	//$start = $this->input->post('page');
-	$this->load->library('pagination');
-	$config = array();
-	$config['base_url'] = '#';
-	$config['total_rows'] = $this->MainModel->cageory_product_rows($category_id);
-	$total_rows=$this->MainModel->cageory_product_rows($category_id);
-	$config['per_page'] = 500;
-	$config['uri_segment'] = 3;
-	$config['use_page_numbers'] = TRUE;
-	$config['full_tag_open'] = '<ul class="pagination">';
-	$config['full_tag_close'] = '</ul>';
-	$config['first_tag_open'] = '<li class="page-item" >';
-	$config['first_tag_close'] = '</li>';
-	$config['last_tag_open'] = '<li class="page-item" >';
-	$config['last_tag_close'] = '</li>';
-	$config['next_link'] = 'Next';
-	$config['next_tag_open'] = '<li class="page-item">';
-	$config['next_tag_close'] = '</li>';
-	$config['prev_link'] = 'Previous';
-	$config['prev_tag_open'] = '<li class="page-item">';
-	$config['prev_tag_close'] = '</li>';
-	$config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
-	$config['cur_tag_close'] = '</a></li>';
-	$config['num_tag_open'] = '<li class="page-item">';
-	$config['num_tag_close'] = '</li>';
-	$config['num_links'] = 3;
-	$this->pagination->initialize($config);
-	$page = $this->uri->segment(3);
-	$start = ($page - 1) * $config['per_page'];
-	$output = array(
-		'pagination_link'  => $this->pagination->create_links(),
-		'product_list'   => $this->MainModel->fetch_data($config["per_page"], $start,$category_id,$sorting),
-		'total'=>$total_rows
-	);
-	echo json_encode($output);
-}
 
 	public function tryOrder()
 	{
@@ -794,24 +545,179 @@ public  function  product_filter(){
 
 
 	}
-	
-	public function all_product(){
-		$sql = "SELECT * FROM `product` ORDER BY `product`.`modified_time` DESC ";
-		$data['products'] = get_result($sql);
-		$this->load->view('website/all_product_ajax_load',$data);
-	}
-	public function home_cat_content(){
+
+
+	public function scroll_pagination_product(){
+
+
+		$output = '<div class="row">';
+		$category_id = $this->input->post('category_id');
+		$limit = $this->input->post('limit');
+		$start = $this->input->post('start');
+		$this->load->model("CategoryModel");
+		$products = $this->CategoryModel->scroll_pagination_product($category_id, $start, $limit);
+
+
+
+		if(sizeof($products)>0)
+		{
+
+			foreach($products as $prod)
+			{
+				$product_link = base_url().'products/'.$prod->product_name;
+
+				$product_availability = NULL;
+				$stock_qty = intval(get_product_meta($prod->product_id, 'stock_qty'));
+
+				$discount = false;
+
+				$product_price = $sell_price = floatval($prod->product_price);
+
+				$product_discount = $prod->discount_price;
+				$sku = $prod->sku;
+
+
+				if($product_discount != 0)
+				{
+					$discount = true;
+
+					$product_discount = $save_money = floatval($product_discount);
+
+
+						$sell_price = ($product_price - $product_discount);
+
+						$save_money = ($product_discount / 100) * $product_price;
+						$sell_price = floatval($product_price - $save_money);
+
+				}
+
+
+
+
+				$output .='<div class="col-md-3 col-lg-3 category_product">';
+
+
+				$discount_type='fixed';
+				if($product_discount != 0)
+				{
+					$discount = true;
+
+					$product_discount = $save_money = floatval($product_discount);
+
+					if($discount_type == 'fixed')
+					{
+						$sell_price = ($product_price - $product_discount);
+
+
+						$output.='<div  class="freepeoduct">৳ '.ceil($product_discount).' ছাড়</div>';
+
+					}
+					elseif($discount_type == 'percent')
+					{
+						$save_money = ($product_discount / 100) * $product_price;
+						$sell_price = floatval($product_price - $save_money);
+
+
+
+						$output.='<div class="freepeoduct" >৳ '.ceil($save_money).' ছাড়</div>';
+
+
+					}
+				}
+
+				$_product_title = strip_tags($prod->product_title);
+				$product_price=	formatted_price($product_price);
+				$sell_price=formatted_price($sell_price);
+
+				$output	.=' <div class="col-md-3 col-lg-3 category_product">
+<span class="discrount_price">- Tk 1600.00</span>
+                    <a href="">
+                        <img
+                            src="https://bdeshishop.com/assets/upload/medium_large/existing/KM1832.jpg">
+                    </a>
+
+
+                   <del style="margin-left: 43px;font-size: 16px;font-weight: bold;"><span class="text-danger">৳ &nbsp;650.00</span>
+                   </del>
+
+                        <span  style="font-size: 16px;font-weight: bold;" class="text-success">৳&nbsp; 490.00</span>
+
+
+                          <a href="">
+                        <h4 class="product_title">Philips Original AquaTouch Wet & Dry Shaver - AT890</h4>
+                          </a>
+
+
+                    <div class="hover-area">
+
+
+                        <a onclick="orderItem(\'Shaver &amp; Trimmer\', \'18066\', \'simple\', \'Kemei 3 IN 1 electric shaver,nose &amp; hair trimmer -  KM1210\')"
+                           href="javascript:void(0)" class="category_order">Order Now</a>
+
+
+                        <a onclick="add_item_to_cart(\'18066\', \'Kemei 3 IN 1 electric shaver,nose &amp; hair trimmer -  KM1210\', \'1450\', \'#quantity-input_18066\', \'https://bdeshishop.com/assets/upload/thumbnail/existing/KM1210.jpg\', \'https://bdeshishop.com/product/kemei-3-in-1-electric-shavernose-hair-trimmer-km-1210\', \'\')"
+                           href="javascript:void(0)"
+                           class="category_add_to_cart">Add To Cart</a>
+
+                    </div>
+                </div>
+                ';
+
+			}
+
+
+			$output .='</div></ul>';
+			echo $output;
+
+
+
+
+
+		}
+
+}
+
+
+public function home_cat_content(){
 		$this->load->view('website/home_category_ajax_load');
 
 	}
-	
-	public  function  top_category_ajax_product(){
-		$this->load->view('website/top_category_this_week_ajax_load');
 
+	public function all_popular_product(){
+		$sql = "SELECT * FROM `product` WHERE product_type='popular' ORDER BY `product`.`modified_time` DESC ";
+		$data['products'] = get_result($sql);
+	
+		$this->load->view('website/all_popular_product_ajax_load',$data);
+	}
+
+	public function scroll_category_product(){
+		$category_id = $this->input->post('category_id');
+		$limit = $this->input->post('limit');
+		$start = $this->input->post('start');
+		$this->load->model("CategoryModel");
+		$data['products'] = $this->CategoryModel->scroll_category_product($category_id, $start, $limit);
+		$this->load->view('website/scroll_category_product_by_ajax',$data);
+	}
+
+	public function scroll_related_product(){
+
+		$category_id = $this->input->post('category_id');
+		$limit = $this->input->post('limit');
+		$start = $this->input->post('start');
+		$this->load->model("CategoryModel");
+		$data['products'] = $this->CategoryModel->scroll_category_product($category_id, $start, $limit);
+
+		$category_id = $this->input->post('category_id');
+		$limit = $this->input->post('limit');
+		$start = $this->input->post('start');
+		$data['products'] = $this->CategoryModel->scroll_related_product($category_id, $start, $limit);
+		$this->load->view('website/scroll_related_product_view_page',$data);
 
 	}
 
-	
+
+
+
 
 
 

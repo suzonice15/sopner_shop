@@ -1,43 +1,102 @@
-<section id="mpart">
-    <section class="container">
-        <div class="row">
-            <div class="col-sm-12 maincnt mt20">
-                <section id="thankyou">
+
+<style>
+    .home_print_mobile_class{
+
+    }
+    .thank_you_class{
+        font-size: 20px;
+        background-color:
+            green;
+        width: 98%;
+        height: auto;
+        margin-top: 28px;
+        color:
+            white;
+        padding: 8px 8px;
+    }
+
+    @media (max-width: 576px) {
+        .thank_you_class{
+            font-size: 20px;
+            background-color:
+                green;
+            width: 100%;
+            height: auto;
+            margin-top: 28px;
+            color:
+                white;
+            padding: 8px 8px;
+        }
+        .order_tank_you_class{
+            width: 107%;
+        }
+    }
+    </style>
+<div class="ecod_strip">
+    <div class="wrapper">
+        <div class="eCOD_notification">
+            <ul class="regular eCOD_slider" id="eCOD_block">
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="ecod_strip">
+    <div class="wrapper">
+        <div class="eCOD_notification">
+            <ul class="regular eCOD_slider" id="eCOD_block">
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="ecod_strip">
+    <div class="wrapper">
+        <div class="eCOD_notification">
+            <ul class="regular eCOD_slider" id="eCOD_block">
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid ">
+    <h1 class="text-center  col-12 thank_you_class"
+        >Thank you.
+        Your Order has been Completly Succesful.</h1>
+        <div class="row  order_tank_you_class">
+
+
                     <?php
-                    if ((isset($order))) { ?><h1 class="text-center  col-12 mt-2"
-                                                 style="font-size: 20px;
-background-color:
-green;
-width: 100%;
-height: auto;
-margin-top: 28px;
-color:
-white;
-padding: 8px 8px;">Thank you.
-                        Your Order has been Completly Succesful.</h1>
-                        <div class="row">
-                        <div class="col-sm-12">
+                    if ((isset($order))) { ?>
+
+
+                        <div class="col-md-12 col-12">
                             <div class="card card-default">
                                 <div class="card-header">
-                                    <div class="row">
-                                        <div class="col-md-3 col">
+
+                                    <div class="row ">
+                                        <div class="col-md-4  col-lg-4 col-12">
                                             <h4>Order Details </h4>
                                         </div>
-                                        <div class="col-md-4 col">
+                                        <div class="col-md-5  col-lg-5 col-12">
 
                                         </div>
-                                        <div class="col-md-5 col float-right">
-                                            <a href="<?php echo base_url();?>" class="btn btn-info btn-sm d-print-none">
+
+                                        <div class="col-md-3 col-lg-3  col-12  home_print_mobile_class" style="padding: 2px;">
+                                            <a href="<?php echo base_url();?>" class="btn btn-info  d-print-none">
                                                 <span class="fa fa-backward"></span> BACK TO HOME
                                             </a>
 
-                                            <button  class="btn btn-primary print btn-sm d-print-none"
-                                                    style="font-size:24px"><i
-                                                    class="fa fa-download"></i> download
+                                            <button  class="btn btn-info print  d-print-none"
+                                                   ><i
+                                                    class="fa fa-download"></i>  DOWNLOAD
                                             </button>
 
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="card-body">
                                     <div class="cart-info">
@@ -79,15 +138,7 @@ padding: 8px 8px;">Thank you.
                                                         class="bold totalamout"><b><?= $order->customer_address ?></b></span>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td style="75%">
-                                                    <span class="extra bold totalamout"><b>Payment method</span>
-                                                </td>
-                                                <td class="text-right" style="width:50%">
-                                                    <span
-                                                        class="bold totalamout"><b><?= ucwords(str_replace("_", " ", $order->payment_type)) ?></b></span>
-                                                </td>
-                                            </tr>
+                                           
                                             </tbody>
                                         </table>
 
@@ -137,8 +188,8 @@ padding: 8px 8px;">Thank you.
 
                                                         <td>  <?= get_sku_code($product_id) ?></td>
                                                         <td>   <?= $item['qty'] ?></td>
-                                                        <td>  ৳ <?=$item['price'] ?> </td>
-                                                        <td>  ৳ <?=$item['subtotal'] ?>    </td>
+                                                        <td> Tk <?=$item['price'] ?> </td>
+                                                        <td> Tk <?=$item['subtotal'] ?>    </td>
 
                                                     </tr>
                                                     <?php
@@ -181,21 +232,20 @@ padding: 8px 8px;">Thank you.
                                 </div>
                             </div>
                         </div>
-                        </div><?php
+                        <?php
                     } else {
                         ?><h1 class="error">Invalid Order Request!</h1><?php
                     }
                     ?>
-                </section>
-            </div>
+
+
         </div>
-    </section>
-</section>
+</div>
 
 
 <script>
 
-    $('.print').click(function(){
+   jQuery('.print').click(function(){
         window.print();
     });
 

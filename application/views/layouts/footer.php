@@ -6,6 +6,12 @@
     reserved.
   </footer>
 
+ <?php
+
+ admin_user_check();
+
+ ?>
+
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->

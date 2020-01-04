@@ -32,19 +32,9 @@ class Home extends CI_Controller
         $data['seo_title'] = get_option('home_seo_title');
         $data['seo_keywords'] = get_option('home_seo_keywords');
         $data['seo_content'] = get_option('home_seo_content');
-        $query25 = "SELECT * FROM `product` WHERE `discount_type`='percent' and product_percent_tag BETWEEN 1 and 25
-order by modified_time desc limit 6";
-        $data['product25'] = $this->MainModel->AllQueryDalta($query25);
-        $query50 = "SELECT * FROM `product` WHERE `discount_type`='percent' and product_percent_tag BETWEEN 26 and 50
-order by modified_time desc limit 6";
-        $data['product50'] = $this->MainModel->AllQueryDalta($query50);
-        $query75 = "SELECT * FROM `product` WHERE `discount_type`='percent' and product_percent_tag BETWEEN 51 and 75
-order by modified_time desc limit 6";
-        $data['product75'] = $this->MainModel->AllQueryDalta($query75);
-
-
-
-
+        $data['class'] = 'main_wrapper';
+        $data['mobile_bottom_menu_active'] = 'active';
+        $data['mobile_single_page_menu_solve'] = 'mobile_single_page_menu_solve';
         $data['home'] = $this->load->view('website/home_content', $data, true);
         $this->load->view('website/home', $data);
     }
@@ -66,22 +56,32 @@ order by modified_time desc limit 6";
             foreach ($result as $prod) {
                 $product_link = base_url() . 'product/' . $prod->product_name;
                 // product price
-                $product_price =  $prod->product_price;
+                $product_price = $prod->product_price;
+                $product_title = $prod->product_title;
                 $product_discount = $prod->discount_price;
-                $sku= $prod->sku;
+                $sku = $prod->sku;
                 if ($product_discount) {
                     $discount = $product_price;
-                    $sell_price =$product_discount;
+                    $sell_price = $product_discount;
                 } else {
-                    $sell_price =  $product_price;
+                    $sell_price = $product_price;
                 }
                 $image = get_product_thumb($prod->product_id);
 
                 if ($i <= 7) {
-                    $html .= '<tr><td width = "20%" ><a href="' . $product_link . '" class="text-decoration-none">
-							<img width = "70" height = "50" src ="' . $image . '" ></a></td>
-							<td width = "80%" ><a href="' . $product_link . '" class="text-decoration-none">' . $prod->product_title . ' <br/><del>' . formatted_price($discount) . '</del>  ' . formatted_price($sell_price) . '<br/>Code:'.$sku.' </td>	
-						</a></tr>';
+                    $html .= '<li class="search-item">
+                            <a href="'.$product_link.'">
+                                <div class="image">
+                                    <img src="'.$image.'">
+                                </div>
+                                <div class="name">'.$product_title.'</div><div class="price">';
+                    if ($product_discount) {
+                        $html.='<span ><del>'.formatted_price($discount).'</del></span>&nbsp&nbsp&nbsp';
+                    }
+
+                    $html.='<span>'.formatted_price($sell_price).'</span></div>
+                            </a>
+                        </li>';
                 }
 
                 $i++;
@@ -90,9 +90,9 @@ order by modified_time desc limit 6";
 
             $resultx = get_result("SELECT * FROM product WHERE product_title LIKE '%$search_query%' OR sku LIKE '$search_query%' ");
 
-//            if (sizeof($resultx) > 7) {
-//                $html .= '<tr><td colspan="2"><a class="btn btn-info btn-sm" href="' . base_url() . 'search?q=' . $search_query . '">' . (sizeof($resultx) - 6) . ' more results</a></td></tr>';
-//            }
+          if (sizeof($resultx) > 7) {
+              $html .= '<li class="search-item"><a class="btn btn-info btn-sm" href="' . base_url() . 'search?q=' . $search_query . '">' . (sizeof($resultx) - 6) . ' more results</a></li>';
+            }
         } else {
             $html .= '<tr style="padding:10px;"><td>No results found!</td></tr>';
         }
@@ -100,7 +100,6 @@ order by modified_time desc limit 6";
         echo json_encode(array("status" => "success", "return_value" => $html));
         die();
     }
-
 
 
     public function cart()
@@ -136,6 +135,7 @@ order by modified_time desc limit 6";
             } else {
                 $user_id = 0;
             }
+          
             $row_data['order_total'] = $this->input->post('order_total');
             $row_data['created_by'] = 'customer';
             $row_data['products'] = serialize($this->input->post('products'));
@@ -145,9 +145,10 @@ order by modified_time desc limit 6";
             $row_data['customer_phone'] = $this->input->post('customer_phone');
             $row_data['customer_email'] = $this->input->post('customer_email');
             $row_data['customer_address'] = $this->input->post('customer_address');
-            $row_data['delevery_address'] = $this->input->post('delevery_address');
-            $row_data['bkash_payment'] = $this->input->post('bkash_payment');
-            $row_data['city'] = $this->input->post('city');
+            $row_data['order_area'] = $this->input->post('order_area');
+//            $row_data['delevery_address'] = $this->input->post('delevery_address');
+//            $row_data['bkash_payment'] = $this->input->post('bkash_payment');
+//            $row_data['city'] = $this->input->post('city');
             $row_data['affiliate_user_id'] = $user_id;
             $row_data['shipment_time'] = date("Y-m-d h:i:s");
             $row_data['created_time'] = date("Y-m-d h:i:s");
@@ -175,9 +176,7 @@ order by modified_time desc limit 6";
             $data['user'] = $this->MainModel->getSingleData('user_id', $user_id, 'affiliate_users', '*');
 
             $data['page_name'] = 'home';
-            $districts_query = "SELECT name FROM `districts` order by id ASC ";
-            $data['districts'] = $this->MainModel->AllQueryDalta($districts_query);
-
+          
             $data['home'] = $this->load->view('website/checkout', $data, true);
             $this->load->view('website/home', $data);
         }
@@ -205,13 +204,11 @@ order by modified_time desc limit 6";
         $customer_email = $billing_email;
         $site_title = get_option('site_title');
         $site_email = get_option('email');
-
         $config['protocol'] = 'sendmail';
         $config['mailpath'] = '/usr/sbin/sendmail';
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = TRUE;
         $this->email->initialize($config);
-
         $this->email->from($site_email, $site_title);
         $this->email->to($customer_email, 'ok');
         $this->email->subject('Order Confirmation');
@@ -255,14 +252,18 @@ order by modified_time desc limit 6";
     {
         $uri_string = explode("/", uri_string());
         $category_name = end($uri_string);
-        $category_data = $this->MainModel->getSingleData('category_name', $category_name, 'category', 'category_id,category_title,category_name,seo_title,seo_meta_title,seo_keywords,seo_content,seo_meta_content');
+        $category_data = $this->MainModel->getSingleData('category_name', $category_name, 'category', 'parent_id,category_id,category_title,category_name,seo_title,seo_meta_title,seo_keywords,seo_content,seo_meta_content');
 
+ $data['mobile_bottom_menu_active'] = 'active';
 
         $data['breadcumb_category'] = $category_data->category_title;
         $data['breadcumb_category_link'] = $category_data->category_name;
         $data['category_id'] = $category_data->category_id;
+        $data['parent_id'] = $category_data->parent_id;
         $category_name = $category_data->category_name;
-
+        $this->load->model("CategoryModel");
+      // $data['products']= $this->CategoryModel->scroll_pagination_product($category_data->category_id);
+       
 
         $data['seo_title'] = $category_data->seo_title;
         $data['seo_keywords'] = $category_data->seo_keywords;
@@ -282,24 +283,28 @@ order by modified_time desc limit 6";
         $uri_string = explode("/", uri_string());
         $product_name = end($uri_string);
         $post = $this->MainModel->getSingleData('product_name', $product_name, 'product', 'product_availability,product_name,product_id,product_title,product_price,discount_price,product_description,sku,product_stock,product_of_size,product_color,discount_type,product_video,seo_title,seo_keywords,seo_content,product_terms,product_summary');
-
-        $data['prod_row'] = $post;
-        $data['page_title'] = $post->product_title;
-        $product_id = $post->product_id;
-        $data['seo_title'] = $post->seo_title;
-        $data['seo_keywords'] = $post->seo_keywords;
-        $data['seo_content'] = $post->seo_content;
-        $sql = "SELECT category_title,category_name FROM `term_relation` join category on category.category_id=term_relation.term_id
+if($post) {
+    $data['prod_row'] = $post;
+    $data['page_title'] = $post->product_title;
+    $product_id = $post->product_id;
+    $data['seo_title'] = $post->seo_title;
+    $data['seo_keywords'] = $post->seo_keywords;
+    $data['seo_content'] = $post->seo_content;
+    $sql = "SELECT category_title,category_name FROM `term_relation` join category on category.category_id=term_relation.term_id
 WHERE product_id=$post->product_id limit 1";
-        $category = get_result($sql);
-        $data['specifications'] = $this->MainModel->allDataById("product_id", $product_id, 'product_specification', '*');
+    $category = get_result($sql);
+    $data['specifications'] = $this->MainModel->allDataById("product_id", $product_id, 'product_specification', '*');
 
-        $data['breadcumb_category'] = $category[0]->category_title;
-        $data['breadcumb_category_link'] = 'category/' . $category[0]->category_name;
+    $data['breadcumb_category'] = $category[0]->category_title;
+    $data['breadcumb_category_link'] = 'category/' . $category[0]->category_name;
+    $data['mobile_single_page_menu_solve']=1;
 
-        $this->load->view('website/header', $data);
-        $this->load->view('website/product_font_view', $data);
-        $this->load->view('website/footer', $data);
+    $this->load->view('website/header', $data);
+    $this->load->view('website/product_font_view', $data);
+    $this->load->view('website/footer', $data);
+} else {
+    redirect('/');
+}
 
 
     }
@@ -330,21 +335,45 @@ WHERE product_id=$post->product_id limit 1";
     {
         //WHERE interests LIKE '%sports%' OR interests LIKE '%pub%'
         $search = $this->input->get_post('q');
-        $sql = "SELECT * FROM `product` WHERE `product_title` LIKE '%$search%'  OR sku LIKE '$search%'  ORDER BY product_id DESC";
-        $data['products'] = get_result($sql);
+        $track_id_id = $this->input->get_post('track_id_id');
+        $data['track_id_id'] = $this->input->get_post('track_id_id');
+        
+        $data['page_title'] = 'Track Order';
+        if($search) {
+            $data['search'] = $search;
+            $sql = "SELECT * FROM `product` WHERE `product_title` LIKE '%$search%'  OR sku LIKE '$search%'  ORDER BY product_id DESC";
+            $data['products'] = get_result($sql);
 
-        $this->load->view('website/header', $data);
-        $this->load->view('website/search', $data);
-        $this->load->view('website/footer', $data);
+            $this->load->view('website/header', $data);
+            $this->load->view('website/search', $data);
+            $this->load->view('website/footer', $data);
+        } else {
+            $this->load->view('website/header', $data);
+            $this->load->view('page_track', $data);
+            $this->load->view('website/footer', $data);
+        }
     }
 
-    public function all_products()
-    {
+    public function popular_product()
+{
+    $data['breadcumb_category_link']='popular';
+    $data['breadcumb_category']='Popular Items This Month';
+    $data['category_id']=1;
 
-        $sql = "SELECT * FROM `product` ORDER BY `product`.`modified_time` DESC ";
-        $data['products'] = get_result($sql);
+    $this->load->view('website/header');
+    $this->load->view('website/popular_products',$data);
+    $this->load->view('website/footer');
+}
+
+
+    public function tend_product()
+    {
+        $data['breadcumb_category_link']='tend';
+        $data['breadcumb_category']='Latest Products';
+        $data['category_id']=1;
+
         $this->load->view('website/header');
-        $this->load->view('website/all_products', $data);
+        $this->load->view('website/tend_products',$data);
         $this->load->view('website/footer');
     }
 
@@ -370,24 +399,26 @@ WHERE product_id=$post->product_id limit 1";
         redirect($get_link);
     }
 
-    public function pdf($order_id){
+    public function pdf($order_id)
+    {
 
 
         $order = $this->MainModel->getSingleData('order_id', $order_id, 'order_data', '*');
         $data['order'] = $order;
 
 
-        $this->pdf->load_view('website/pdf',$data);
+        $this->pdf->load_view('website/pdf', $data);
         $this->pdf->render();
-        $this->pdf->stream($order_id.".pdf");
+        $this->pdf->stream($order_id . ".pdf");
 
     }
 
-    public function password_reset(){
+    public function password_reset()
+    {
 
 
         //mail('suzonice15@gmail.com','ok','ffgggggggggggggggggggggg','gjjgjg','bfbfb');
-        if($this->input->post('email')) {
+        if ($this->input->post('email')) {
             $email = $this->input->post('email');
             if (is_numeric($email)) {
                 $mobile = $email;
@@ -412,34 +443,33 @@ WHERE product_id=$post->product_id limit 1";
                     $this->load->view('website/footer');
 
                 }
-            }
-else {
-            $query = "SELECT * FROM `affiliate_users` WHERE user_email='$email'";
-            $results = get_result($query);
-            if ($results) {
-                $name = $results[0]->user_f_name;
-                $resetPassLink = base_url() . 'home/new_password/' . $email;
-                $data['success'] = 'To reset password varify  your email address';
-                $message = "Dear $name, 
+            } else {
+                $query = "SELECT * FROM `affiliate_users` WHERE user_email='$email'";
+                $results = get_result($query);
+                if ($results) {
+                    $name = $results[0]->user_f_name;
+                    $resetPassLink = base_url() . 'home/new_password/' . $email;
+                    $data['success'] = 'To reset password varify  your email address';
+                    $message = "Dear $name, 
                 Recently a request was submitted to reset a password for your account. If this was a mistake, just ignore this email and nothing will happen.
                To reset your password, visit the following link: $resetPassLink
                Regards,
                Ekusheshop.com";
-                // $message='To reset password <a href="">click</a>here';
-                mail($email, 'Password Reset', $message);
+                    // $message='To reset password <a href="">click</a>here';
+                    mail($email, 'Password Reset', $message);
 
 
-                $this->load->view('website/header');
-                $this->load->view('affiliate/passord_reset', $data);
-                $this->load->view('website/footer');
+                    $this->load->view('website/header');
+                    $this->load->view('affiliate/passord_reset', $data);
+                    $this->load->view('website/footer');
 
-            } else {
-                $data['error'] = 'There are no account associate with this account';
-                $this->load->view('website/header');
-                $this->load->view('affiliate/passord_reset', $data);
-                $this->load->view('website/footer');
+                } else {
+                    $data['error'] = 'There are no account associate with this account';
+                    $this->load->view('website/header');
+                    $this->load->view('affiliate/passord_reset', $data);
+                    $this->load->view('website/footer');
+                }
             }
-        }
 
         } else {
             $this->load->view('website/header');
@@ -450,49 +480,66 @@ else {
     }
 
 
-
-
-    public function new_password(){
+    public function new_password()
+    {
         $uri_string = explode("/", uri_string());
         $uri_email = end($uri_string);
 
-        $data['email']=$uri_email;
+        $data['email'] = $uri_email;
         $this->load->view('website/header');
-        $this->load->view('affiliate/new_password',$data);
+        $this->load->view('affiliate/new_password', $data);
         $this->load->view('website/footer');
 
 
     }
 
-    public function new_update_password(){
+    public function new_update_password()
+    {
 
-        $email=$this->input->post('email');
-        $data['email']=$email;
+        $email = $this->input->post('email');
+        $data['email'] = $email;
 
-        $passord=$this->input->post('passord');
-        $row['user_password']=$passord;
-        $npassord=$this->input->post('npassord');
-        if(strlen($passord) <8 ){
-            $data['error']="Enter at least 8 digit alphabets";
+        $passord = $this->input->post('passord');
+        $row['user_password'] = $passord;
+        $npassord = $this->input->post('npassord');
+        if (strlen($passord) < 8) {
+            $data['error'] = "Enter at least 8 digit alphabets";
 
             $this->load->view('website/header');
-            $this->load->view('affiliate/new_password',$data);
+            $this->load->view('affiliate/new_password', $data);
             $this->load->view('website/footer');
         }
-        if($passord !=$npassord){
-            $data['error']="New password and confirm password does not match";
+        if ($passord != $npassord) {
+            $data['error'] = "New password and confirm password does not match";
 
             $this->load->view('website/header');
-            $this->load->view('affiliate/new_password',$data);
+            $this->load->view('affiliate/new_password', $data);
             $this->load->view('website/footer');
         } else {
             $this->MainModel->updateData('user_email', $email, 'affiliate_users', $row);
-            $data['success']="Your password has been changed";
+            $data['success'] = "Your password has been changed";
             $this->load->view('website/header');
-            $this->load->view('affiliate/new_password',$data);
+            $this->load->view('affiliate/new_password', $data);
             $this->load->view('website/footer');
         }
 
+
+    }
+    public  function trackorder($id){
+
+$data['track_id']=$id;
+$data['page_title']='Track Order';
+        $this->load->view('website/header', $data);
+        $this->load->view('trackorder', $data);
+        $this->load->view('website/footer', $data);
+        
+    }
+    public function subscribe(){
+       $data['newsletter_email']=$this->input->post('email');
+       $data['created_time']=date("Y-m-d h:i:s");
+       $data['status']=0;
+
+         $this->MainModel->insertData('newsletter', $data);
 
     }
 

@@ -31,7 +31,7 @@
 											<th><input type="checkbox" id="checkAll"></th>
 											<th>Product Code</th>
 											<th>Product</th>
-											<th>Category</th>
+											<th hidden >Category</th>
 											<th hidden>Purchase Price</th>
 											<th>Sell Price</th>
 											<th>Discount Price</th>
@@ -49,16 +49,19 @@
 											$i = 0;
 
 											foreach ($products as $prod) {
-												$categoryName = get_result("SELECT * FROM  category
-join term_relation on term_relation.term_id=category.category_id
-WHERE product_id=$prod->product_id");
-												foreach ($categoryName as $category) {
-													$category_title[] = $category->category_title;
 
 
-												}
-												$category_name = implode(',', $category_title);
-												unset($category_title);
+//												$categoryName = get_result("SELECT * FROM  category
+//join term_relation on term_relation.term_id=category.category_id
+//WHERE product_id=$prod->product_id");
+//												foreach ($categoryName as $category) {
+//													$category_title[] = $category->category_title;
+//
+//
+//												}
+//												$category_name = implode(',', $category_title);
+//												unset($category_title);
+
 
 												$featured_image = get_product_meta($prod->product_id, 'featured_image');
 												$featured_image = get_media_path($featured_image);
@@ -82,7 +85,7 @@ WHERE product_id=$prod->product_id");
 														&nbsp; <a  target="" href="<?php echo $link;?>"><?php echo $prod->product_title ?>
 															</a>
 													</td>
-													<td><?php echo $category_name ?> </td>
+													<td hidden ><?php echo $category_name ?> </td>
 
 
 													<td hidden ><?php echo $prod->purchase_price; ?></td>

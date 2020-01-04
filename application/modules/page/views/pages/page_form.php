@@ -14,7 +14,7 @@
 			<option value="default" >Default</option>
 			<option value="full_width">Full Width</option>
 			<option value="contact">Contact</option>
-			<option value="trackorder">Track Order</option>
+			<option value="page_track">Track Order</option>
 		</select>
 	</div>
 

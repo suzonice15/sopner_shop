@@ -24,7 +24,7 @@
 	<div class="form-group <?=form_error('target_url') ? 'has-error' : ''?>">
 
 		<div class="col-sm-6">
-			<span>Slider Image size 1300 ✖ 400</span>
+			<span>Slider Image size <span style="color:red">1543 ✖ 410</span></span>
 			<input type="file" class="form-control" name="featured_image"/>
 
 		</div>

@@ -36,7 +36,7 @@
     </div>
 
     <div class="form-group featured-image <?= form_error('media_file') ? 'has-error' : '' ?>">
-        <label>Media File<span class="required">*(Size 547 * 320 )</span></label>
+        <label>Media File<span class="required">*(Size 546 * 118 )</span></label>
         <input type="file" class="form-control" name="media_file"/>
     </div>
 

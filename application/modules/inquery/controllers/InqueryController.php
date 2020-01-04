@@ -7,14 +7,16 @@ class InqueryController extends MX_Controller {
 	{
 		$this->load->model('MainModel');
 
-		$userType=$this->session->userdata('user_type');
-		if($userType !='super-admin' &&  $userType !='admin'){
-			redirect('admin');
-		}
+
 	}
 
 	public function index()
 	{
+
+		$userType=$this->session->userdata('user_type');
+		if($userType !='super-admin' &&  $userType !='admin'){
+			redirect('admin');
+		}
 
 		$data['main'] = "Inquery";
 		$data['active'] = "inquery" ;
@@ -26,6 +28,11 @@ class InqueryController extends MX_Controller {
 	public function create()
 	{
 
+		$userType=$this->session->userdata('user_type');
+		if($userType !='super-admin' &&  $userType !='admin'){
+			redirect('admin');
+		}
+		
 		$data['title'] = "Page registration form ";
 		$data['main'] = "Page";
 		$data['active'] = "Add Page";
@@ -37,6 +44,7 @@ class InqueryController extends MX_Controller {
 
 	public function store()
 	{
+		date_default_timezone_set('Asia/Dhaka');
 		$data['name']		=	$this->input->post('name');
 		$data['phone']		=	$this->input->post('phone');
 		$data['subject']		=	$this->input->post('subject');

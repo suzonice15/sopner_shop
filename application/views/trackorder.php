@@ -1,4 +1,7 @@
-<div class="container container-fullwidth" style="margin-bottom: 50px">
+<div class="container" style="margin-bottom: 50px">
+
+<br>
+<br>
 <div class="container-fluid">
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-12" style="margin-left:-17px;">
@@ -13,7 +16,7 @@
 						foreach($adds as $add)
 						{
 							$link=base_url().$add->media_path;
-							$side_html.='<li>
+							$side_html.='<li style="list-style:none">
 								<a href="'.$add->adds_link.'">
 									<img  width="100%" class="img-fluid" src="'.$link.'">
 								</a>
@@ -48,11 +51,11 @@
 					</div>
 
 					<hr class="break break30">
-					<form  action="" method="post">
-						<div class="row row5">
+					<form  action="" method="post"  >
+						<div class="row row5" style="display:none">
 							<div class="col-sm-6 col-md-6 col-12">
 								<div class="form-group">
-									<input type="text"  style="z-index: 999999999" class="form-control" name="track_id" value="<?php if(isset($_POST['track_id'])) { echo $_POST['track_id'];} ?>" placeholder="Mobile Number/ Order Number"/>
+									<input type="text"  style="z-index: 999999999" class="form-control" name="track_id" value="<?php if(isset($_POST['track_id'])) { echo $_POST['track_id'];}?>" placeholder="Mobile Number/ Order Number"/>
 								</div>
 							</div>
 							
@@ -81,9 +84,9 @@
 						return $array_value[$id];
 					}
 					$curiar='';
-					if(isset($_POST['submit']) && isset($_POST['track_id']))
+					if(isset($track_id))
 					{
-						$track_id = $_POST['track_id'];
+						
 
 						if(!empty($track_id))
 						{
@@ -171,7 +174,7 @@
 								$track_html.='</table>';
 
 								echo $track_html;
-								echo '<a href="#" style="width: 300px;" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".xs-modal">Login to your account for more details</a>';
+								
 							}
 							else {
 

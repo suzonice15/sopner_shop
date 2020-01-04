@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Ekushey Shop | admin panel </title>
+  <title><?= get_option('site_title') ?> | admin panel </title>
 <!--	<link rel="icon" type="img/gif" href="--><?php //echo base_url()?><!--uploads/favicon.ico" sizes="16x16">-->
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -113,11 +113,11 @@
 								<!-- Menu Body -->
 
 								<li class="user-footer">
-									<div class="pull-left">
+									<div hidden class="pull-left">
 										<a href="#" class="btn btn-default btn-flat">Profile</a>
 									</div>
 									<div class="pull-right">
-										<a href="<?php echo base_url()?>logout" class="btn btn-default btn-flat">Sign out</a>
+										<a href="<?php echo base_url()?>logout" class="btn btn-danger btn-flat">Sign out</a>
 									</div>
 								</li>
 							</ul>

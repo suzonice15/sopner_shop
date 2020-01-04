@@ -14,7 +14,7 @@
 		<form action="<?php echo base_url()?>product-update"  name="proudctUpdate" method="post" enctype="multipart/form-data" >
 			<div class="box-body">
 				<div class="row">
-					<div class="col-sm-6">
+					<div class="col-md-5">
 						<div class="box box-primary" style="border: 2px solid #ddd;" >
 							<div class="box-header" style="background-color: #ddd;" >
 								<h3 class="box-title">General Info.</h3>
@@ -78,13 +78,13 @@
 									</div>
 								</div>
 
-								<div class="form-group <?= form_error('sell_price') ? 'has-error' : '' ?>">
+								<div hidden class="form-group <?= form_error('sell_price') ? 'has-error' : '' ?>">
 									<label for="discount_price"> Delevary Charge</label>
 
 								</div>
 
 
-								<div class="col-sm-6">
+								<div hidden class="col-sm-6">
 									<div
 										class="form-group <?= form_error('discount_from') ? 'has-error' : '' ?>">
 										<label for="discount_from">In Side Dhaka</label>
@@ -93,7 +93,7 @@
 											   value="<?php echo $product->delever_charge_in_dhaka; ?>">
 									</div>
 								</div>
-								<div class="col-sm-6 ">
+								<div hidden class="col-sm-6 ">
 									<div
 										class="form-group <?= form_error('discount_to') ? 'has-error' : '' ?>">
 										<label for="discount_to">Out Side Dhaka</label>
@@ -131,16 +131,15 @@
 
 								<div class="form-group">
 									<label for="product_type">Product Location</label>
-									<select name="product_type" class="form-control">
-										<option value="general">General</option>
-										<option value="hotsell">Top Category  Product</option>
-										<option value="home">Home</option>
+	<select name="product_type" class="form-control">
+										<option value="0">Generel</option>
+										<option value="home">Home category</option>
 
 									</select>
 
 								</div>
 
-								<div hidden class="form-group">
+								<div  class="form-group">
 									<label for="product_video">Youtube Video Link</label>
 									<input type="text" class="form-control" name="product_video" id="product_video" value="<?php if(isset($product)){ echo $product->product_video;} ?>">
 								</div>
@@ -154,7 +153,7 @@
 					</div>
 
 
-					<div class="col-sm-6" >
+					<div class="col-md-4" >
 						<div class="box box-primary" style="border: 2px solid #ddd;" >
 							<div class="box-header" style="background-color: #ddd;" >
 								<h3 class="box-title">Image and Gallary</h3>
@@ -287,6 +286,37 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="col-md-3"  >
+						<div class="box box-primary" style="border: 2px solid #ddd;" >
+							<div class="box-header" style="background-color: #ddd;" >
+								<h3 class="box-title">Categories</h3>
+							</div>
+							<div class="box-body" style="height: 800px;overflow: scroll">
+								<div class="form-group categories checkbox">
+									<?php
+									$category = array('categories' => array(),'parent_cats' => array());
+
+									$result = get_result("SELECT * FROM `category`");
+
+									if(isset($result))
+									{
+										foreach($result as $row)
+										{
+											$category['categories'][$row->category_id] = $row;
+
+											$category['parent_cats'][$row->parent_id][] = $row->category_id;
+										}
+
+										echo nested_category_checkbox_list(0, $category, $product_terms);
+									}
+									?>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
 				</div>
 
 
@@ -298,7 +328,7 @@
 				<div class="box-body">
 
 					<div  class="row">
-						<div  class="col-md-3">
+						<div  class="col-md-3" hidden>
 							<div class="box box-primary" style="border: 2px solid #ddd;" >
 								<div class="box-header" style="background-color: #ddd;" >
 									<h3 class="box-title">product size</h3>
@@ -351,11 +381,11 @@
 
 
 
-						<div  class="col-md-3">
+						<div  class="col-md-3" hidden>
 
 
 
-							<div class="box box-primary" style="border: 2px solid #ddd;" >
+							<div class="box box-primary" style="border: 2px solid #ddd;"  >
 								<div class="box-header" style="background-color: #ddd;" >
 									<h3 class="box-title">Product Color</h3>
 								</div>
@@ -403,7 +433,7 @@
 
 						</div>
 
-						<div class="col-md-6">
+						<div class="col-md-6"  hidden>
 							<div class="box box-primary" style="border: 2px solid #ddd;" >
 								<div class="box-header" style="background-color: #ddd;" >
 									<h3 class="box-title">Categories</h3>

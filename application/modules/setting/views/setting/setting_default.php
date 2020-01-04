@@ -21,10 +21,14 @@
                         <label for="logo">Logo(size 280 * 80)</label>
                         <input type="text" class="form-control" name="logo" id="logo" value="<?= get_option('logo') ?>">
                     </div>
-
+                    order_image
                     <div class="form-group">
                         <label for="icon">Icon(size 64 * 64 )</label>
                         <input type="text" class="form-control" name="icon" id="icon" value="<?= get_option('icon') ?>">
+                    </div>
+                    <div class="form-group">
+                        <label for="icon">Mobile Order Image</label>
+                        <input type="text" class="form-control" name="order_image" id="icon" value="<?= get_option('order_image') ?>">
                     </div>
 
                     <div class="form-group ">
@@ -32,36 +36,16 @@
                         <input type="text" class="form-control" name="phone" id="phone"
                                value="<?= get_option('phone') ?>">
                     </div>
-                    <div class="form-group ">
-                        <label for="phone">Home promosion title</label>
-                        <input type="text" class="form-control" name="home_pomosion_title" id="phone"
-                               value="<?= get_option('home_pomosion_title') ?>">
-                    </div>
-
-                    <div class="form-group ">
-                        <label for="phone">Home promosion sub title</label>
-                        <input type="text" class="form-control" name="home_pomosion_sub_title" id="phone"
-                               value="<?= get_option('home_pomosion_sub_title') ?>">
-                    </div>
-                    <div class="form-group ">
-                        <label for="phone">Home promosion link</label>
-                        <input type="text" class="form-control" name="home_pomosion_link" id="phone"
-                               value="<?= get_option('home_pomosion_link') ?>">
-                    </div>
 
 
 
-                    <div hidden class="form-group ">
+                    <div  class="form-group ">
                         <label for="footer">Phone to Order</label>
                         <textarea class="form-control" rows="5"
                                   name="phone_order"><?= get_option('phone_order') ?></textarea>
                     </div>
 
-                    <div hidden class="form-group ">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email"
-                               value="<?= get_option('email') ?>">
-                    </div>
+
 
                     <div hidden class="form-group ">
                         <label for="admin_email">Admin Email</label>
@@ -81,41 +65,14 @@
                                id="shipping_charge_out_of_dhaka"
                                value="<?= get_option('shipping_charge_out_of_dhaka') ?>">
                     </div>
-
-                    <div hidden class="form-group ">
-                        <label for="support_box">Support Box</label>
-                        <textarea class="form-control" rows="15"
-                                  name="support_box"><?= get_option('support_box') ?></textarea>
-                    </div>
-
-                    <div class="form-group ">
-                        <label for="support_box">Delivery Timing</label>
-                        <textarea class="form-control" rows="2"
-                                  name="delevery_timing"><?= get_option('delevery_timing') ?></textarea>
-                    </div>
-
-                    <div class="form-group ">
-                        <label for="support_box">Customer Service</label>
-                        <textarea class="form-control" rows="2"
-                                  name="customer_service"><?= get_option('customer_service') ?></textarea>
-                    </div>
-
-                    <div class="form-group ">
-                        <label for="support_box">Easy Returns</label>
-                        <textarea class="form-control" rows="2"
-                                  name="easy_return"><?= get_option('easy_return') ?></textarea>
-                    </div>
-
-                    <div class="form-group ">
-                        <label for="support_box">Bkash Pament Message</label>
-                        <textarea class="form-control" rows="2"
-                                  name="bkash_payment"><?= get_option('bkash_payment') ?></textarea>
-                    </div>
-
-
                     <div hidden class="form-group ">
                         <label for="footer">Footer</label>
                         <textarea class="form-control" rows="15" name="footer"><?= get_option('footer') ?></textarea>
+                    </div>
+                    <div class="form-group ">
+                        <label for="copyright">Google map</label>
+                        <input type="text" class="form-control" name="google_map" id="google_map"
+                               value="<?= get_option('google_map') ?>">
                     </div>
 
                     <div class="form-group ">
