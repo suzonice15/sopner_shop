@@ -2,83 +2,126 @@
 <div class="box  box-success">
 	<div class="box-header with-border">
 		<div class="row">
-			<div class="col-md-4 col-sm-6 col-xs-12">
+			<div class="col-md-6 col-sm-6 col-xs-12">
 				<a href="<?=base_url('media-create')?>" class="btn btn-success">Add New</a>
 				<input type="submit" name="delete" value="Delete" id="deleteAll"  onclick="return confirm('Are you want to delete this information :press Ok for delete otherwise Cancel')" class="btn btn-danger" id="del_all" data-table="product"/>
 
 			</div>
-			<div class="col-md-2 col-sm-6 col-xs-12" style="text-align:left;">
-			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12" style="text-align:left;">
 
-				<select  onchange="return totalProductCount();" class="form-control" id="counter">
-					<option value="50">50</option>
-					<option value="100">100</option>
-					<option value="250">250</option>
-					<option value="1">All</option>
 
-				</select>
-			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12" style="text-align:left;">
+			<div class="col-md-3 col-sm-6 col-xs-12 pull-right " style="text-align:right;">
 
-				<input type="text" name="media_title" id="media_title" oninput="return search_content();"  class="form-control"       />
+				<input type="text" name="media_title"  placeholder="Enter product name or Product code" id="search"   class="form-control md"       />
 			</div>
 		</div>
 	</div>
 	<div class="box-body">
 <div class="table-responsive" id="ajaxdata">
-		<table id="examplje1" class="table table-bordered table-striped table-responsive ">
-			<thead>
-			<tr>
-				<th width="5%">Sl</th>
-				<th width="5%"><input type="checkbox" id="checkAll"></th>
-				<th width="10%">Picture</th>
-				<th width="40%">Media Name </th>
-				<th width="40%">Url </th>
-				<th width="40%">Created Date </th>
-			</tr>
-			</thead>
-			<tbody>
-			<?php if (isset($media)){
-            $count = 0;
-            foreach ($media as $med) {
-
-    ?>
-    <tr>
-		<td><?php echo ++$count; ?></td>
-        <td><input type="checkbox" id="<?php echo $med->media_id; ?>" class="checkAll" value="<?php echo  $med->media_id; ?>"></td>
-
-
-        <td>
-
-		<img src="<?php echo base_url();echo $med->media_path; ?>" width="50" height="50"/>
-		</td>
-        <td><?php echo $med->media_title; ?></td>
-        <td> <input id="url_<?php echo $med->media_id ?>"  class="form-control lg " value="<?php echo base_url();echo $med->media_path;?>"/>
-			<button  id="<?php echo $med->media_id ?>" class="btn btn-success selectAllUrl">Copy text</button>
-
-		</td>
-		<td><?php echo $med->created_time; ?></td>
-
-    </tr>
-
-			<?php }} ?>
-			</tbody>
-
-		</table>
+<!--		<table id="example" class="table table-bordered table-striped table-responsive ">-->
+<!--			<thead>-->
+<!--			<tr>-->
+<!--				<th width="5%">Sl</th>-->
+<!--				<th width="5%"><input type="checkbox" id="checkAll"></th>-->
+<!--				<th width="10%">Picture</th>-->
+<!--				<th width="40%">Media Name </th>-->
+<!--				<th width="40%">Url </th>-->
+<!--				<th width="40%">Created Date </th>-->
+<!--			</tr>-->
+<!--			</thead>-->
+<!--			<tbody>-->
+<!--			--><?php //if (isset($media)){
+//            $count = 0;
+//            foreach ($media as $med) {
+//
+//    ?>
+<!--    <tr>-->
+<!--		<td>--><?php //echo ++$count; ?><!--</td>-->
+<!--        <td><input type="checkbox" id="--><?php //echo $med->media_id; ?><!--" class="checkAll" value="--><?php //echo  $med->media_id; ?><!--"></td>-->
+<!---->
+<!---->
+<!--        <td>-->
+<!---->
+<!--		<img src="--><?php //echo base_url();echo $med->media_path; ?><!--" width="50" height="50"/>-->
+<!--		</td>-->
+<!--        <td>--><?php //echo $med->media_title; ?><!--</td>-->
+<!--        <td> <input id="url_--><?php //echo $med->media_id ?><!--"  class="form-control lg " value="--><?php //echo base_url();echo $med->media_path;?><!--"/>-->
+<!--			<button  id="--><?php //echo $med->media_id ?><!--" class="btn btn-success selectAllUrl">Copy text</button>-->
+<!---->
+<!--		</td>-->
+<!--		<td>--><?php //echo $med->created_time; ?><!--</td>-->
+<!---->
+<!--    </tr>-->
+<!---->
+<!--			--><?php //}} ?>
+<!--			</tbody>-->
+<!---->
+<!--		</table>-->
 
 </div>
 
-		<?php echo $links; ?>
+		<div align="right" id="pagination_link"></div>
 
 	</div>
 
 </div>
 </div>
 
+
+<script>
+	$(document).ready(function(){
+
+
+		function load_country_data(page)
+		{
+
+
+			$.ajax({
+				url:"<?php echo base_url(); ?>media/MediaController/pagination/"+page,
+				method:"GET",
+				dataType:"json",
+				success:function(data)
+				{
+
+					$('#ajaxdata').html(data.media);
+					$('#pagination_link').html(data.pagination_link);
+				}
+			});
+		}
+
+		load_country_data(1);
+
+		$(document).on("click", ".pagination li a", function(event){
+
+			event.preventDefault();
+			var page = $(this).data("ci-pagination-page");
+
+			load_country_data(page);
+		});
+		$(document).on('input','#search' ,function () {
+			var search=$('#search').val();
+			$.ajax({
+				url:"<?php echo base_url(); ?>media/MediaController/pagination",
+				method:"post",
+				data:{search:search},
+				dataType:"json",
+				success:function(data)
+				{
+					 
+
+					$('#ajaxdata').html(data.media);
+					$('#pagination_link').html(data.pagination_link);
+				}
+			});
+		});
+
+	});
+</script>
+
+
 <script>
 
-	$('#checkAll').change(function(){
+
+		$(document).on("change", "#checkAll", function(event){
 
 		if($(this).is(":checked")){
 
@@ -124,8 +167,10 @@
 
 </script>
 <script>
-	$('.selectAllUrl').on('click',function () {
-		url_id=this.id;
+
+		$(document).on("click", ".selectAllUrl", function(event){
+
+			url_id=this.id;
 		var urlLink=$('#url_'+url_id);
 		urlLink.select();
 		document.execCommand("copy");

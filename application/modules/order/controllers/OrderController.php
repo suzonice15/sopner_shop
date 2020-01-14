@@ -26,7 +26,7 @@ class OrderController extends CI_Controller
 
         $data['main'] = "Orders ";
         $data['active'] = "View Order ";
-      $query="SELECT * FROM `order_data` where order_status !='try' and try_status=0 ORDER BY `order_id` DESC limit 20";
+      $query="SELECT * FROM `order_data` where order_status ='new'  ORDER BY `order_id`  desc";
         $data['orders'] =  $this->MainModel->AllQueryDalta($query);
         $data['pageContent'] = $this->load->view('order/orders/orders_index', $data, true);
         $this->load->view('layouts/main', $data);
@@ -1111,6 +1111,8 @@ class OrderController extends CI_Controller
     public function totalOrderReport()
     {
         $data['option'] = $this->input->post('order_status');
+        $customer_phone= $this->input->post('customer_phone');
+        $data['customer_phone']= $this->input->post('customer_phone');
         $option = $this->input->post('order_status');
         $data['order_by'] = $this->input->post('order_by');
         $optionBy = $data['order_by'];
@@ -1119,10 +1121,12 @@ class OrderController extends CI_Controller
         $data['date_from'] = date('Y-m-d', strtotime($this->input->post('date_from')));
         $date_from = date('Y-m-d', strtotime($this->input->post('date_from')));
 
-
-        if ($option==1) {
-            $query = "SELECT * FROM `order_data` WHERE
-`order_status` !='try' and `try_status`=0 order by `order_id` DESC ";
+if($customer_phone){
+    $query = "SELECT * FROM `order_data` WHERE
+`customer_phone` =$customer_phone order by `order_id` DESC ";
+}
+    elseif   ($option==1) {
+            $query = "SELECT * FROM `order_data`  order by `order_id` DESC ";
         } elseif(empty($option)) {
             $query = "SELECT * FROM `order_data`  
 WHERE   order_status !='try' and try_status=0 and `modified_time` >= '$date_from' and  `modified_time` <= '$date_to'

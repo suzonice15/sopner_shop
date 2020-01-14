@@ -26,7 +26,7 @@
 
             <form action="<?php echo base_url() ?>order-list-report" name="order" method="post">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label for="email">Order status</label>
                             <select class="form-control select2" id="order_status" name="order_status">
@@ -34,38 +34,16 @@
 
                                 <option value="new">New</option>
                                 <option value="pending_payment">Pending for Payment</option>
-                                <option value="processing">On Process</option>
+                                <option  value="processing">On Process</option>
                                 <option value="on_courier">With Courier</option>
-                                <option value="delivered">Delivered</option>
-                                <option value="refund">Refunded</option>
+                                <option  value="delivered">Delivered</option>
+                                <option  value="refund">Refunded</option>
                                 <option value="cancled">Cancelled</option>
                                 <option value="completed">Completed</option>
                                 <option value="1">All</option>
                             </select>
                         </div>
                     </div>
-                    <!--					<div class="col-md-3">-->
-                    <!--						<div class="form-group">-->
-                    <!--							<label for="email">Order By</label>-->
-                    <!---->
-                    <!--							<select class="form-control select2" id="order_by" name="order_by">-->
-                    <!--								<option value="">--select--</option>-->
-                    <!--								--><?php
-                    //								$office_staffs = users_by_role('office-staff');
-                    //
-                    //								if(isset($office_staffs)):
-                    //								foreach ($office_staffs as $office_staff):
-                    //								?>
-                    <!--								<option value="-->
-                    <?php //echo $office_staff->user_id;?><!--">-->
-                    <?php //echo $office_staff->user_name;?><!--</option>-->
-                    <!--								--><?php
-                    //endforeach;								endif;?>
-                    <!---->
-                    <!---->
-                    <!--							</select>-->
-                    <!--						</div>-->
-                    <!--					</div>-->
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Date From</label>
@@ -100,6 +78,19 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+
+                                <input type="text"   name="customer_phone"
+                                       class="form-control  "
+                                       value="<?php if (isset($customer_phone)) {
+                                           echo  $customer_phone ;
+                                       } ?>" placeholder="Customer Mobile">
+
+                        </div>
+                    </div>
                     <div class="col-md-1">
                         <br>
                         <div class="form-group">
@@ -122,6 +113,7 @@
                         <th>Order Id</th>
                         <th>Customer</th>
                         <th>Phone</th>
+                        <th>Address</th>
                         <th>Created By</th>
                         <th>Amount</th>
                         <th>Status</th>
@@ -175,14 +167,15 @@
 											<td>' . ++$i . '</td>
 											<td>' . $row->order_id . '</td>
 												<td>' . $row->customer_name . '</td>
-												<td>' . $row->customer_phone . '</td>';
+												<td>' . $row->customer_phone . '</td>
+												<td>' . $row->customer_address.'</td>';
                             if ($row->created_by == 'customer') {
                                 $html .= '<td>' . ucwords(str_replace('-', ' ', $row->created_by)) . '</td>';
                             } else {
                                 $html .= '<td>' . get_user_name($row->staff_id) . '</td>';
                             }
 
-                            $html .= '<td> ' .formatted_price($row->order_total ). '</td>';
+                            $html .= '<td> Tk. '.$row->order_total.'</td>';
                             $html .= '<td>' . $order_status . '</td>';
 
 

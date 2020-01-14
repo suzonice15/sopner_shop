@@ -290,7 +290,7 @@
 
 			 });
 
-		 $(".datepicker").datepicker().datepicker("setDate", new Date());
+		// $(".datepicker").datepicker().datepicker("setDate", new Date());
 
 		 $(":selected").css("background-color", "red");
 		 $('.timepicker').timepicker({

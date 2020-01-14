@@ -20,51 +20,82 @@ class MediaController extends MX_Controller
 		$data['main'] = "Media";
 		$data['active'] = "View Midia";
 
-		$this->config->load('pagination');
-		$this->load->library("pagination");
-		$config = array();
-		$media_title = $this->input->post('media_title');
-		$config["base_url"] = base_url() . "media/MediaController/index";
 
-		if ($media_title) {
-			$config["total_rows"] = $this->MainModel->countByLikeCondition("media_title", $media_title, "media");
-		} else {
-			$config["total_rows"] = $this->MainModel->countAll('media');
-		}
-
-
-		$config['per_page'] = 20;
-		$counter = $this->input->post('counter');
-		if (isset($counter)) {
-			if ($counter == 1) {
-				$config['per_page'] = $this->MainModel->countAll('media');
-			} else {
-				$config['per_page'] = $counter;
-			}
-
-		}
-		$config['uri_segment'] = 4;
-		$config['num_links'] = 2;
-		$this->pagination->initialize($config);
-		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
-		if ($media_title) {
-			$data["media"] = $this->MainModel->select_all_data_by_name($config["per_page"], $page, 'media_title', $media_title, 'media', 'media_id desc');
-
-		} else {
-			$data["media"] = $this->MainModel->select_all_data_by_limit($config["per_page"], $page, 'media', 'media_id desc');
-		}
-		$data["links"] = $this->pagination->create_links();
-		if ($this->input->is_ajax_request()) {
-
-			$this->load->view('media/media/media_ajax', $data);
-
-		} else {
 			$data['pageContent'] = $this->load->view('media/media/media_index', $data, true);
 			$this->load->view('layouts/main', $data);
-		}
+		
 
 
 	}
+
+	function pagination()
+	{
+		$this->load->model("OrderModel");
+		$this->load->library("pagination");
+		$config = array();
+		$config["base_url"] = "#";
+
+		$search=$this->input->post('search');
+		if($search){
+			$config["total_rows"] = $this->OrderModel->count_all_by_search($search);
+
+
+		} else {
+
+			$config["total_rows"] = $this->OrderModel->count_all();
+		}
+		$config["per_page"] = 10;
+		$config["uri_segment"] = 4;
+		$config["use_page_numbers"] = TRUE;
+		$config["full_tag_open"] = '<ul class="pagination">';
+		$config["full_tag_close"] = '</ul>';
+		$config["first_tag_open"] = '<li>';
+		$config["first_tag_close"] = '</li>';
+		$config["last_tag_open"] = '<li>';
+		$config["last_tag_close"] = '</li>';
+		$config['next_link'] = '&gt;';
+		$config["next_tag_open"] = '<li>';
+		$config["next_tag_close"] = '</li>';
+		$config["prev_link"] = "&lt;";
+		$config["prev_tag_open"] = "<li>";
+		$config["prev_tag_close"] = "</li>";
+		$config["cur_tag_open"] = "<li class='active'><a href='#'>";
+		$config["cur_tag_close"] = "</a></li>";
+		$config["num_tag_open"] = "<li>";
+		$config["num_tag_close"] = "</li>";
+		$config["num_links"] = 3;
+		$this->pagination->initialize($config);
+		if($search){
+			$page =1;
+
+
+		} else {
+
+			$page = $this->uri->segment(4);
+		}
+
+		$start = ($page - 1) * $config["per_page"];
+
+		if($search){
+
+			$output = array(
+				'pagination_link'  => $this->pagination->create_links(),
+				'media'   => $this->OrderModel->fetch_product_by_search($config["per_page"], $start,$search)
+			);
+
+
+		} else {
+
+			$output = array(
+				'pagination_link'  => $this->pagination->create_links(),
+				'media'   => $this->OrderModel->fetch_products($config["per_page"], $start)
+			);
+		}
+
+
+		echo json_encode($output);
+	}
+
 
 	public function create()
 	{

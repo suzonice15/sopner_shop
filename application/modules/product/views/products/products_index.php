@@ -154,26 +154,7 @@
 		}
 	}
 </script>
-<script>
-	function totalProductCount() {
-		var base_url = "<?php echo base_url()?>";
-		var counter = $('#counter').val();
-		if ($.trim(counter) != "") {
-			$.ajax({
-				type: 'post',
-				url: '<?php echo base_url()?>product/ProductController/index',
-				data: {counter: counter},
-				success: function (data) {
-					$("#ajaxdata").html(data);
-				}
-			});
-		} else {
-			$.post(base_url + "product-list", function (data) {
-				$("#ajaxdata").html(data);
-			});
-		}
-	}
-</script>
+
 
 
 <script>

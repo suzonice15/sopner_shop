@@ -90,8 +90,8 @@ class Home extends CI_Controller
 
             $resultx = get_result("SELECT * FROM product WHERE product_title LIKE '%$search_query%' OR sku LIKE '$search_query%' ");
 
-          if (sizeof($resultx) > 7) {
-              $html .= '<li class="search-item"><a class="btn btn-info btn-sm" href="' . base_url() . 'search?q=' . $search_query . '">' . (sizeof($resultx) - 6) . ' more results</a></li>';
+            if (sizeof($resultx) > 7) {
+                $html .= '<li class="search-item"><a class="btn btn-info btn-sm" href="' . base_url() . 'search?q=' . $search_query . '">' . (sizeof($resultx) - 6) . ' more results</a></li>';
             }
         } else {
             $html .= '<tr style="padding:10px;"><td>No results found!</td></tr>';
@@ -135,7 +135,7 @@ class Home extends CI_Controller
             } else {
                 $user_id = 0;
             }
-          
+
             $row_data['order_total'] = $this->input->post('order_total');
             $row_data['created_by'] = 'customer';
             $row_data['products'] = serialize($this->input->post('products'));
@@ -176,7 +176,7 @@ class Home extends CI_Controller
             $data['user'] = $this->MainModel->getSingleData('user_id', $user_id, 'affiliate_users', '*');
 
             $data['page_name'] = 'home';
-          
+
             $data['home'] = $this->load->view('website/checkout', $data, true);
             $this->load->view('website/home', $data);
         }
@@ -242,19 +242,18 @@ class Home extends CI_Controller
         $data['order'] = $order;
 
         $data['home'] = $this->load->view('website/thank_you', $data, true);
-
         $this->load->view('website/home', $data);
 
     }
 
 
-    public function category()
+    public function category($category_name)
     {
-        $uri_string = explode("/", uri_string());
-        $category_name = end($uri_string);
+        //$uri_string = explode("/", uri_string());
+        //  $category_name = end($uri_string);
         $category_data = $this->MainModel->getSingleData('category_name', $category_name, 'category', 'parent_id,category_id,category_title,category_name,seo_title,seo_meta_title,seo_keywords,seo_content,seo_meta_content');
 
- $data['mobile_bottom_menu_active'] = 'active';
+        $data['mobile_bottom_menu_active'] = 'active';
 
         $data['breadcumb_category'] = $category_data->category_title;
         $data['breadcumb_category_link'] = $category_data->category_name;
@@ -262,49 +261,52 @@ class Home extends CI_Controller
         $data['parent_id'] = $category_data->parent_id;
         $category_name = $category_data->category_name;
         $this->load->model("CategoryModel");
-      // $data['products']= $this->CategoryModel->scroll_pagination_product($category_data->category_id);
-       
+        // $data['products']= $this->CategoryModel->scroll_pagination_product($category_data->category_id);
+
 
         $data['seo_title'] = $category_data->seo_title;
         $data['seo_keywords'] = $category_data->seo_keywords;
         $data['seo_content'] = $category_data->seo_content;
         $data['page_title'] = ucwords(str_replace("-", " ", $category_name));
 
-        $this->load->view('website/header', $data);
-        $this->load->view('website/category_products', $data);
-        $this->load->view('website/footer', $data);
+
+
+        $data['home'] = $this->load->view('website/category_products', $data, true);
+        $this->load->view('website/home', $data);
 
 
     }
 
-    public function product()
+    public function product($product_name)
     {
 
-        $uri_string = explode("/", uri_string());
-        $product_name = end($uri_string);
+        //$uri_string = explode("/", uri_string());
+        // $product_name = end($uri_string);
         $post = $this->MainModel->getSingleData('product_name', $product_name, 'product', 'product_availability,product_name,product_id,product_title,product_price,discount_price,product_description,sku,product_stock,product_of_size,product_color,discount_type,product_video,seo_title,seo_keywords,seo_content,product_terms,product_summary');
-if($post) {
-    $data['prod_row'] = $post;
-    $data['page_title'] = $post->product_title;
-    $product_id = $post->product_id;
-    $data['seo_title'] = $post->seo_title;
-    $data['seo_keywords'] = $post->seo_keywords;
-    $data['seo_content'] = $post->seo_content;
-    $sql = "SELECT category_title,category_name FROM `term_relation` join category on category.category_id=term_relation.term_id
+        if($post) {
+            $data['prod_row'] = $post;
+            $data['page_title'] = $post->product_title;
+            $product_id = $post->product_id;
+            $data['seo_title'] = $post->seo_title;
+            $data['seo_keywords'] = $post->seo_keywords;
+            $data['seo_content'] = $post->seo_content;
+            $sql = "SELECT category_title,category_name FROM `term_relation` join category on category.category_id=term_relation.term_id
 WHERE product_id=$post->product_id limit 1";
-    $category = get_result($sql);
-    $data['specifications'] = $this->MainModel->allDataById("product_id", $product_id, 'product_specification', '*');
+            $category = get_result($sql);
+            $data['specifications'] = $this->MainModel->allDataById("product_id", $product_id, 'product_specification', '*');
 
-    $data['breadcumb_category'] = $category[0]->category_title;
-    $data['breadcumb_category_link'] = 'category/' . $category[0]->category_name;
-    $data['mobile_single_page_menu_solve']=1;
+            $data['breadcumb_category'] = $category[0]->category_title;
+            $data['breadcumb_category_link'] = 'category/' . $category[0]->category_name;
+            $data['mobile_single_page_menu_solve']=1;
 
-    $this->load->view('website/header', $data);
-    $this->load->view('website/product_font_view', $data);
-    $this->load->view('website/footer', $data);
-} else {
-    redirect('/');
-}
+
+
+            $data['home'] = $this->load->view('website/product_font_view', $data, true);
+            $this->load->view('website/home', $data);
+
+        } else {
+            redirect('/');
+        }
 
 
     }
@@ -324,9 +326,9 @@ WHERE product_id=$post->product_id limit 1";
         $template = $post->page_template;
         $template = $template == 'default' ? 'page' : $template;
 
-        $this->load->view('website/header', $data);
-        $this->load->view($template, $data);
-        $this->load->view('website/footer', $data);
+
+        $data['home'] = $this->load->view($template, $data, true);
+        $this->load->view('website/home', $data);
 
 
     }
@@ -337,33 +339,34 @@ WHERE product_id=$post->product_id limit 1";
         $search = $this->input->get_post('q');
         $track_id_id = $this->input->get_post('track_id_id');
         $data['track_id_id'] = $this->input->get_post('track_id_id');
-        
+
         $data['page_title'] = 'Track Order';
         if($search) {
             $data['search'] = $search;
             $sql = "SELECT * FROM `product` WHERE `product_title` LIKE '%$search%'  OR sku LIKE '$search%'  ORDER BY product_id DESC";
             $data['products'] = get_result($sql);
 
-            $this->load->view('website/header', $data);
-            $this->load->view('website/search', $data);
-            $this->load->view('website/footer', $data);
+
+            $data['home'] = $this->load->view('website/search', $data, true);
+            $this->load->view('website/home', $data);
         } else {
-            $this->load->view('website/header', $data);
-            $this->load->view('page_track', $data);
-            $this->load->view('website/footer', $data);
+
+            $data['home'] = $this->load->view('page_track', $data, true);
+            $this->load->view('website/home', $data);
         }
     }
 
     public function popular_product()
-{
-    $data['breadcumb_category_link']='popular';
-    $data['breadcumb_category']='Popular Items This Month';
-    $data['category_id']=1;
+    {
+        $data['breadcumb_category_link']='popular';
+        $data['breadcumb_category']='Popular Items This Month';
+        $data['category_id']=1;
 
-    $this->load->view('website/header');
-    $this->load->view('website/popular_products',$data);
-    $this->load->view('website/footer');
-}
+
+
+        $data['home'] = $this->load->view('website/popular_products', $data, true);
+        $this->load->view('website/home', $data);
+    }
 
 
     public function tend_product()
@@ -375,6 +378,9 @@ WHERE product_id=$post->product_id limit 1";
         $this->load->view('website/header');
         $this->load->view('website/tend_products',$data);
         $this->load->view('website/footer');
+
+        $data['home'] = $this->load->view('website/tend_products', $data, true);
+        $this->load->view('website/home', $data);
     }
 
     public function affiliate_check_controller($route_name = null, $product_key = null, $user_id = null)
@@ -527,19 +533,19 @@ WHERE product_id=$post->product_id limit 1";
     }
     public  function trackorder($id){
 
-$data['track_id']=$id;
-$data['page_title']='Track Order';
+        $data['track_id']=$id;
+        $data['page_title']='Track Order';
         $this->load->view('website/header', $data);
         $this->load->view('trackorder', $data);
         $this->load->view('website/footer', $data);
-        
+
     }
     public function subscribe(){
-       $data['newsletter_email']=$this->input->post('email');
-       $data['created_time']=date("Y-m-d h:i:s");
-       $data['status']=0;
+        $data['newsletter_email']=$this->input->post('email');
+        $data['created_time']=date("Y-m-d h:i:s");
+        $data['status']=0;
 
-         $this->MainModel->insertData('newsletter', $data);
+        $this->MainModel->insertData('newsletter', $data);
 
     }
 
