@@ -81,13 +81,13 @@
 
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label>Mobile Number</label>
+                            <label>Mobile Number/Memo Id</label>
 
                                 <input type="text"   name="customer_phone"
                                        class="form-control  "
                                        value="<?php if (isset($customer_phone)) {
                                            echo  $customer_phone ;
-                                       } ?>" placeholder="Customer Mobile">
+                                       } ?>" placeholder="Mobile/Memo Id">
 
                         </div>
                     </div>
@@ -111,6 +111,7 @@
                     <tr>
                         <th>Sl</th>
                         <th>Order Id</th>
+                        <th>Memo Id</th>
                         <th>Customer</th>
                         <th>Phone</th>
                         <th>Address</th>
@@ -166,6 +167,7 @@
                             $html .= '<tr>
 											<td>' . ++$i . '</td>
 											<td>' . $row->order_id . '</td>
+											<td>' . $row->memo_id . '</td>
 												<td>' . $row->customer_name . '</td>
 												<td>' . $row->customer_phone . '</td>
 												<td>' . $row->customer_address.'</td>';
@@ -181,11 +183,12 @@
 
 
                             $html .= '<td>' . date('H:i:s a d-M-Y', strtotime($row->created_time)) . '</td>
-												<td class="action text-center">';
+												<td>';
 
+                            $html .= '<a   target="_blank" title="Print" href="' . base_url() . 'order/OrderController/orderPrint/' . $row->order_id . '"><span class="glyphicon glyphicon-print btn btn-info"></span>&nbsp;</a>';
 
-                            $html .= '<a class="fa fa-eye" href="' . base_url() . 'order-view/' . $row->order_id . '">&nbsp;</a>
-													<a class="fa fa-trash"  id="deleteOrder" href="' . base_url() . 'order-delete/' . $row->order_id . '"  >&nbsp;</a>
+                            $html .= '<a   href="' . base_url() . 'order-view/' . $row->order_id . '"><span class="glyphicon glyphicon-edit btn btn-success "></span>&nbsp;</a>
+													<a    id="deleteOrder" href="' . base_url() . 'order-delete/' . $row->order_id . '"  ><span class="glyphicon glyphicon-trash btn btn-danger"></span>&nbsp;</a>
 												</td>
 											</tr>';
                         }

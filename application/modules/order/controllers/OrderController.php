@@ -197,6 +197,7 @@ class OrderController extends CI_Controller
         $data['shipping_charge'] = $this->input->post('shipping_charge');
         $data['discount'] = $this->input->post('discount');
         $data['order_note'] = $this->input->post('order_note');
+        $data['memo_id'] = $this->input->post('memo_id');
 
         $data['shipment_time'] = date("Y-m-d H:i:s", strtotime($this->input->post('shipment_time')));
 
@@ -494,165 +495,6 @@ class OrderController extends CI_Controller
 
     }
 
-
-    function courier_report()
-    {
-        if ($this->session->userdata('loggedin')) {
-            $userdata = $this->session->userdata('loggedin');
-            $data['user_id'] = $userdata['user_id'];
-            $data['user_name'] = $userdata['user_name'];
-            $data['user_phone'] = $userdata['user_phone'];
-            $data['user_type'] = $userdata['user_type'];
-            $data['user_email'] = $userdata['user_email'];
-            $data['row_id'] = $this->input->post('row_id');
-            $data['page_title'] = 'Courier Report';
-            $data['form_title'] = 'Update';
-            $data['user_sidebar'] = $this->load->view('admin/sidebar', $data, true);
-
-            if ($data['user_type'] == 'admin' || $data['user_type'] == 'super-admin') {
-                $this->load->view('header', $data);
-                $this->load->view('courier_report', $data);
-                $this->load->view('footer', $data);
-            } else {
-                redirect('authentication-failure', 'refresh');
-            }
-        } else {
-            redirect('admin', 'refresh');
-        }
-    }
-
-
-    function ready_for_shipment()
-    {
-        if ($this->session->userdata('loggedin')) {
-            $userdata = $this->session->userdata('loggedin');
-            $data['user_id'] = $userdata['user_id'];
-            $data['user_name'] = $userdata['user_name'];
-            $data['user_phone'] = $userdata['user_phone'];
-            $data['user_type'] = $userdata['user_type'];
-            $data['user_email'] = $userdata['user_email'];
-            $data['row_id'] = $this->input->post('row_id');
-            $data['page_title'] = 'Order Ready For Shipment';
-            $data['form_title'] = 'Update';
-            $data['user_sidebar'] = $this->load->view('admin/sidebar', $data, true);
-
-            if ($data['user_type'] == 'admin' || $data['user_type'] == 'super-admin' || $data['user_type'] == 'delivery-man') {
-                $this->load->view('header', $data);
-                $this->load->view('order_ready_for_shipment', $data);
-                $this->load->view('footer', $data);
-            } else {
-                redirect('authentication-failure', 'refresh');
-            }
-        } else {
-            redirect('admin', 'refresh');
-        }
-    }
-
-
-    function ready_to_deliver()
-    {
-        if ($this->session->userdata('loggedin')) {
-            $userdata = $this->session->userdata('loggedin');
-            $data['user_id'] = $userdata['user_id'];
-            $data['user_name'] = $userdata['user_name'];
-            $data['user_phone'] = $userdata['user_phone'];
-            $data['user_type'] = $userdata['user_type'];
-            $data['user_email'] = $userdata['user_email'];
-            $data['row_id'] = $this->input->post('row_id');
-            $data['page_title'] = 'Order Ready to Deliver';
-            $data['form_title'] = 'Update';
-            $data['user_sidebar'] = $this->load->view('admin/sidebar', $data, true);
-
-            if ($data['user_type'] == 'admin' || $data['user_type'] == 'super-admin' || $data['user_type'] == 'delivery-man') {
-                $this->load->view('header', $data);
-                $this->load->view('order_ready_to_deliver', $data);
-                $this->load->view('footer', $data);
-            } else {
-                redirect('authentication-failure', 'refresh');
-            }
-        } else {
-            redirect('admin', 'refresh');
-        }
-    }
-
-
-    function on_courier()
-    {
-        if ($this->session->userdata('loggedin')) {
-            $userdata = $this->session->userdata('loggedin');
-            $data['user_id'] = $userdata['user_id'];
-            $data['user_name'] = $userdata['user_name'];
-            $data['user_phone'] = $userdata['user_phone'];
-            $data['user_type'] = $userdata['user_type'];
-            $data['user_email'] = $userdata['user_email'];
-            $data['row_id'] = $this->input->post('row_id');
-            $data['page_title'] = 'Order On Courier';
-            $data['form_title'] = 'Update';
-            $data['user_sidebar'] = $this->load->view('admin/sidebar', $data, true);
-
-            if ($data['user_type'] == 'admin' || $data['user_type'] == 'super-admin' || $data['user_type'] == 'delivery-man') {
-                $this->load->view('header', $data);
-                $this->load->view('order_on_courier', $data);
-                $this->load->view('footer', $data);
-            } else {
-                redirect('authentication-failure', 'refresh');
-            }
-        } else {
-            redirect('admin', 'refresh');
-        }
-    }
-
-    public function courier_view($order_id)
-    {
-        if ($this->session->userdata('loggedin')) {
-            $userdata = $this->session->userdata('loggedin');
-            $data['user_id'] = $userdata['user_id'];
-            $data['user_name'] = $userdata['user_name'];
-            $data['user_phone'] = $userdata['user_phone'];
-            $data['user_type'] = $userdata['user_type'];
-            $data['user_email'] = $userdata['user_email'];
-            $data['page_title'] = 'Order (' . $order_id . ') Courier View';
-            $data['form_title'] = 'Update';
-            $data['user_sidebar'] = $this->load->view('admin/sidebar', $data, true);
-            $data['order'] = $this->order->order_view($order_id);
-
-            if ($data['user_type'] == 'admin' || $data['user_type'] == 'super-admin' || $data['user_type'] == 'office-staff' || $data['user_type'] == 'delivery-man') {
-                $this->load->view('header', $data);
-                $this->load->view('order_courier_view', $data);
-                $this->load->view('footer', $data);
-            } else {
-                redirect('admin', 'refresh');
-            }
-        } else {
-            redirect('admin', 'refresh');
-        }
-    }
-
-    public function ready_to_deliver_view($order_id)
-    {
-        if ($this->session->userdata('loggedin')) {
-            $userdata = $this->session->userdata('loggedin');
-            $data['user_id'] = $userdata['user_id'];
-            $data['user_name'] = $userdata['user_name'];
-            $data['user_phone'] = $userdata['user_phone'];
-            $data['user_type'] = $userdata['user_type'];
-            $data['user_email'] = $userdata['user_email'];
-            $data['page_title'] = 'Order (' . $order_id . ') Ready to Deliver';
-            $data['form_title'] = 'Update';
-            $data['user_sidebar'] = $this->load->view('admin/sidebar', $data, true);
-            $data['order'] = $this->order->order_view($order_id);
-
-            if ($data['user_type'] == 'admin' || $data['user_type'] == 'super-admin' || $data['user_type'] == 'office-staff' || $data['user_type'] == 'delivery-man') {
-                $this->load->view('header', $data);
-                $this->load->view('order_ready_to_deliver_view', $data);
-                $this->load->view('footer', $data);
-            } else {
-                redirect('admin', 'refresh');
-            }
-        } else {
-            redirect('admin', 'refresh');
-        }
-    }
 
     public function productSelection()
     {
@@ -1123,7 +965,7 @@ class OrderController extends CI_Controller
 
 if($customer_phone){
     $query = "SELECT * FROM `order_data` WHERE
-`customer_phone` =$customer_phone order by `order_id` DESC ";
+`customer_phone` =$customer_phone or memo_id=$customer_phone order by `order_id` DESC ";
 }
     elseif   ($option==1) {
             $query = "SELECT * FROM `order_data`  order by `order_id` DESC ";
@@ -1433,6 +1275,19 @@ order by `order_id` DESC";
             $this->session->set_flashdata('message', ' Try  Order updated    successfully!');
             redirect('order/OrderController/tryorder');
         }
+
+    }
+
+    public  function orderPrint($order_id){
+
+        $data['main'] = "Orders print ";
+        $total_cost=0;
+
+        $data['active'] = " Order print ";
+
+        $data['order'] = $this->MainModel->getSingleData('order_id', $order_id, 'order_data', '*');
+        $data['pageContent'] =  $this->load->view('order/orders/orders_print', $data, true);
+        $this->load->view('layouts/main', $data);
 
     }
 

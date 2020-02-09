@@ -701,12 +701,8 @@ public function home_cat_content(){
 
 	public function scroll_related_product(){
 
-		$category_id = $this->input->post('category_id');
-		$limit = $this->input->post('limit');
-		$start = $this->input->post('start');
-		$this->load->model("CategoryModel");
-		$data['products'] = $this->CategoryModel->scroll_category_product($category_id, $start, $limit);
-
+	
+		$this->load->model("CategoryModel");		
 		$category_id = $this->input->post('category_id');
 		$limit = $this->input->post('limit');
 		$start = $this->input->post('start');

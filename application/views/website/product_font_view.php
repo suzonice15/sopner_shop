@@ -525,8 +525,9 @@ $summery = $prod_row->product_summary;
         }
 
         .single_product_shopno #grid-extended .products {
-            margin-left: -30px !important;
-            width: 100% !important;
+            margin-left: -48px !important;
+            width: 115% !important;
+            margin-right: -34px;
         }
 
         .wrapper {
@@ -774,7 +775,7 @@ margin-left: -34px;"
                                     </div><!-- /.single-product-header -->
                                     <div class="single-product-meta product_meta">
                                         <div class="cat-and-sku">
-                                            <span class="sku_wrapper">SKU: <span class="sku"><?= $sku ?></span></span>
+                                            <span class="sku_wrapper">Product Code: <span class="sku"><?= $sku ?></span></span>
                                         </div>
                                         <div class="product-label"></div>
                                     </div>
@@ -1203,6 +1204,61 @@ display: inline-flex;">
 
     </div>
 </div>
+
+<!-- start update seo part --->
+
+<?php
+$query_category = "SELECT category_title,category_name FROM `category` join term_relation on term_relation.term_id=category.category_id WHERE term_relation.product_id=$prod_row->product_id limit 1";
+$category_title = get_result($query_category);
+
+
+$category_name = base_url() . $category_title[0]->category_name;
+$category_title = $category_title[0]->category_title;
+
+
+?>
+<?php
+$url = base_url() . $prod_row->product_name;
+$end_date = date('Y-m-d', strtotime('+1 years'));
+$recent_url = current_url();
+$description = strip_tags($prod_row->product_description);
+$description = str_replace('"', '', $description);
+?>
+
+<script type="application/ld+json">
+    {"itemListElement":[{"item":{"name":"<?php echo $category_title; ?>","@id":"<?php echo $url; ?>
+                    "},"@type":"ListItem","position":"<?php echo $prod_row->product_id; ?>"
+                    },{"item":{"name":"<?php echo $prod_row->product_title; ?>","@id":" <?php echo $recent_url; ?>"},"@type":"ListItem","position":4}],"@type":"BreadcrumbList","@context":"https://schema.org"}
+
+
+
+
+                </script>
+
+<script type="application/ld+json">
+    {"offers":{"priceCurrency":"BDT","@type":"Offer","price":"<?php echo $sell_price; ?>"
+                    ,"priceValidUntil":"<?php echo $end_date; ?>
+                    ","warranty":{"@type":"WarrantyPromise","durationOfWarranty":{"@type":"QuantitativeValue","unitCode":"ANN","value":"No warranty"}},"availability":"https://schema.org/InStock","url":"<?php echo $url; ?>
+                    "},"image":"<?php echo $featured_image; ?>
+                    ","@type":"Product","review":[{"datePublished":"<?php echo date('Y-m-d', strtotime($review->created_time)); ?>
+                    ","@type":"Review","author":"<?php if ($review->name) {
+        echo $review->name;
+    } else {
+        echo 'Jncomputer Customer';
+    } ?>","reviewBody":"<?php echo $review->comment; ?>
+                    ","reviewRating":{"@type":"Rating","ratingValue":"<?php if ($review->rating) {
+        echo $review->rating;
+    } else {
+        echo '5';
+    } ?>"}}],"mpn":<?php echo $prod_row->product_id; ?>,"name":"<?php echo $prod_row->product_title; ?>
+                    ","description":"<?php echo $description; ?>
+                    ","sku":"<?php echo $prod_row->product_id; ?>","category":"<?php echo $category_title; ?>
+                    ","aggregateRating":{"bestRating":5,"@type":"AggregateRating","ratingValue":"4.2","ratingCount":"52","worstRating":1},"@context":"https://schema.org","brand":{"@type":"Brand","name":"No Brand","url":"<?php echo base_url(); ?>/no-brand-1/"}}
+
+                </script>
+
+<!-- end  update seo part --->
+
 
 <input type="hidden" name="related_category" value="<?php echo $product_cats; ?>">
 

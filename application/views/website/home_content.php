@@ -159,10 +159,12 @@ text-align: center;" ><?php echo $row->category_title;?></h4>
 
 <script type="text/javascript">
 
+ function home_cat_content () {
 
-    window.onload = function() {
+
+
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", '<?php echo site_url('ajax/home_cat_content'); ?>');
+        xhr.open("GET", '<?php echo base_url('ajax/home_cat_content'); ?>');
         xhr.send();
         xhr.onreadystatechange = function()
         {
@@ -205,6 +207,7 @@ text-align: center;" ><?php echo $row->category_title;?></h4>
 
             });
         }
+
     }
 
 
@@ -222,3 +225,56 @@ text-align: center;" ><?php echo $row->category_title;?></h4>
     });
 
     </script>
+
+<script>
+    jQuery(document).ready(function(){
+
+        jQuery('.home_cat_content').html(make_skeleton());
+
+
+          home_cat_content();
+
+        function make_skeleton()
+        {
+            var output = '<div class="container-fluid"><div class="row"><div class="col-lg-12 col-md-12 col">';
+            for(var count = 0; count<6; count++)
+            {
+                output += '<div class="ph-item">';
+
+                output += '<div class="ph-col-2 col">';
+                output += '<div class="ph-picture"></div></div>';
+
+
+                output += '<div class="ph-col-2 col">';
+                output += '<div class="ph-picture"></div></div>';
+
+
+                output += '<div class="ph-col-2 col">';
+                output += '<div class="ph-picture"></div></div>';
+
+
+                output += '<div class="ph-col-2 col">';
+                output += '<div class="ph-picture"></div></div>';
+
+
+                output += '<div class="ph-col-2 col">';
+                output += '<div class="ph-picture"></div></div>';
+
+                output += '<div class="ph-col-2 col">';
+                output += '<div class="ph-picture"></div></div>';
+
+
+                output += '</div>';
+
+            }
+            output += '</div>';
+            output += '</div>';
+            output += '</div>';
+            return output;
+        }
+
+
+
+
+    });
+</script>

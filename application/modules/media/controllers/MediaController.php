@@ -194,11 +194,17 @@ class MediaController extends MX_Controller
 
 	}
 
-
-	public function multipleDelete()
+public function multipleDelete()
 	{
 		$media = $this->input->post('media_id');
 		for ($i = 0; $i < sizeof($media); $i++) {
+			$pictureData = $this->MainModel->getSingleData('media_id', $media[$i], 'media', 'media_path');
+			$picture_path=$pictureData->media_path;
+			//print_r($picture_path);
+			if (file_exists($picture_path)) {
+				unlink($picture_path);
+
+			}
 			$result = $this->MainModel->deleteData('media_id', $media[$i], 'media');
 		}
 

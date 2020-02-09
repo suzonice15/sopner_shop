@@ -115,8 +115,7 @@ line-height: inherit;" href="<?php echo base_url() ?>pages/buy">How to buy</a>
     <footer>
 
         <div class="sc_connection">
-
-                <div class="sc_socialconnection" itemscope="" itemtype="http://schema.org/Organization">
+            <div class="sc_socialconnection" itemscope="" itemtype="http://schema.org/Organization">
                     <h3>Keep In Touch <span>(Social Connect)</span></h3>
                     <ul>
                      
@@ -144,8 +143,6 @@ line-height: inherit;" href="<?php echo base_url() ?>pages/buy">How to buy</a>
 
                     <img src="" alt="">
                 </div>
-                
-
         </div>
 
         <div class="scfooter_bottom">

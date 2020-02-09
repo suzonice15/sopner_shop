@@ -60,10 +60,6 @@ foreach ($this->cart->contents() as $key => $val) {
     <script type='text/javascript' src='<?= base_url() ?>assets/fontend/js/home/jquery.js?ver=1.12.4'></script>
     <script type='text/javascript'
             src='<?= base_url() ?>assets/fontend/js/home/jquery-migrate.min.js?ver=1.4.1'></script>
-
-    <script type='text/javascript' src='<?= base_url() ?>assets/fontend/js/home/homebundle.js'></script>
-    <script type='text/javascript' src='<?= base_url() ?>assets/fontend/js/home/cart.js?v=3'></script>
-
     <link rel="stylesheet" href="<?= base_url() ?>assets/fontend/css/home/home.css" type="text/css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/fontend/css/home/cart.css" type="text/css">
     <link rel="stylesheet" href="<?= base_url() ?>assets/fontend/css/custom.css" type="text/css">
@@ -75,22 +71,15 @@ foreach ($this->cart->contents() as $key => $val) {
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/fontend/css/mobile_menu.css"/>
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/fontend/css/dropdown_menu.css"/>
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/fontend/css/mobile_bottom_menu.css"/>
-
-
-
-
+    <link rel="stylesheet" href="https://unpkg.com/placeholder-loading/dist/css/placeholder-loading.min.css">
     <link rel="stylesheet" type="text/css"
           href="<?= base_url() ?>assets/fontend/css/bootstrap.min.css"/>
     <!--        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>-->
     <link rel="stylesheet" type="text/css" href="<?= base_url() ?>assets/fontend/css/lightslider.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <?= get_option('facebook_pixel') ?>
 
-    <script>
-        if (typeof visitorId == 'undefined') {
-            var visitorId = 'ff';
-        }
-        var ShoppingCartAPI = "https://bdeshishop.com/cart/"
-    </script>
+
     <! ------------------------- product carousel titlebar style --------------- !>
 
     <style>
@@ -478,13 +467,13 @@ height: 30px;margin-left: 23px;" class="desktop_menu_bar">
 
         ?>
         <div class="dropdown_sujon">
-            <a class="<?php if ($count == 11) {
+            <a class="<?php if ($count == 10) {
                 echo 'dropbtn-content_right';
             } else {
                 echo 'dropbtn';
             } ?>" href="<?php echo $link_parent; ?>"><?php echo $parentCategory->category_title ?></a>
 
-            <div class="<?php if ($count == 11) {
+            <div class="<?php if ($count == 10) {
                 echo 'dropdown-content_right';
             } else {
                 echo 'dropdown-content';

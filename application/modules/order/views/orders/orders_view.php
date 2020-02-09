@@ -173,6 +173,14 @@
                                                        class="form-control">
 
                                             </div>
+                                            <div class="form-group">
+                                                <label>Memo Number</label>
+
+
+                                                <input name="memo_id" value="<?php echo $order->memo_id; ?>"
+                                                       class="form-control">
+
+                                            </div>
 
                                             <div  hidden class="form-group">
                                                 <label>Payment type </label>

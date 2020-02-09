@@ -36,6 +36,7 @@ class SettingController extends MX_Controller
 			$data['order_image'] = $this->input->post('order_image');
 			$data['google_map'] = $this->input->post('google_map');
 $data['phone_order'] = $this->input->post('phone_order');
+$data['facebook_pixel'] = $this->input->post('facebook_pixel');
 		//	$data['email'] = $this->input->post('email');
 		//	$data['admin_email'] = $this->input->post('admin_email');
 		//	$data['support_box'] = $this->input->post('support_box');

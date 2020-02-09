@@ -45,7 +45,13 @@
                                   name="phone_order"><?= get_option('phone_order') ?></textarea>
                     </div>
 
+                    <div  class="form-group ">
+                        <label for="admin_email">Facebook pixel set</label>
 
+
+                         <textarea class="form-control" rows="10"
+                                   name="facebook_pixel"><?= get_option('facebook_pixel') ?></textarea>
+                    </div>
 
                     <div hidden class="form-group ">
                         <label for="admin_email">Admin Email</label>
@@ -75,7 +81,7 @@
                                value="<?= get_option('google_map') ?>">
                     </div>
 
-                    <div class="form-group ">
+                    <div  hidden class="form-group ">
                         <label for="copyright">Copyright</label>
                         <input type="text" class="form-control" name="copyright" id="copyright"
                                value="<?= get_option('copyright') ?>">

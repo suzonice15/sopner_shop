@@ -473,9 +473,12 @@ if(isset($results)) {
 
                             <div class="woocommerce columns-4">
 
-
+                                <div id="load_data_message">
+                                </div>
                                  <div id="load_data">
                                      </div>
+
+
 
 
                             </div>
@@ -550,29 +553,7 @@ if(isset($results)) {
 </div>
 
 </div>
-<div class="wrapper">
-<div class="before-footer-wrap">
-    <div class="col-full">
-        <div class="footer-social-icons"  >
-            <ul class="social-icons nav">
-                <li class="nav-item"><a target="_parent" class="sm-icon-label-link nav-link"
-                                        href="<?= get_option('facebook') ?>"><i class="fa fa-facebook"></i>
-                        Facebook</a></li>
-                <li class="nav-item"><a target="_parent" class="sm-icon-label-link nav-link"
-                                        href="<?= get_option('twitter') ?>"><i class="fa fa-twitter"></i>
-                        Twitter</a></li>
 
-                <li class="nav-item"><a target="_parent" class="sm-icon-label-link nav-link"
-                                        href="<?= get_option('youtube') ?>"><i class="fa fa-youtube-square"></i>
-                        Vimeo</a></li>
-                <li class="nav-item"><a target="_parent" class="sm-icon-label-link nav-link"
-                                        href="<?= get_option('instagram') ?>"><i
-                            class="fa fa-linkedin"></i> Linkin</a></li>
-            </ul>
-        </div>
-    </div><!-- /.col-full -->
-</div>
-</div>
 
 <input type="hidden" name="category_id" value="<?php echo $category_id;?>">
 
@@ -593,13 +574,14 @@ if(isset($results)) {
                 data: {limit: limit, start: start, category_id: category_id},
                 cache: false,
                 success: function (data) {
+                     jQuery('#load_data_message').html("");
                    
                     if (data == '') {
-                        jQuery('#load_data_message').html('<h3>No More Result Found</h3>');
+                      //  jQuery('#load_data_message').html('<h3>No More Result Found</h3>');
                         action = 'active';
                     } else {
                         jQuery('#load_data').append(data);
-                        jQuery('#load_data_message').html("");
+                      //  jQuery('#load_data_message').html("");
                         action = 'inactive';
                     }
                 }
@@ -637,3 +619,51 @@ if(isset($results)) {
     });
 </script>
 
+
+<script>
+    jQuery(document).ready(function(){
+
+        jQuery('#load_data_message').html(make_skeleton());
+
+
+
+
+        function make_skeleton()
+        {
+            var output = '<div class="container-fluid"><div class="row"><div class="col-lg-12 col-md-12 col-12">';
+            for(var count = 0; count<6; count++)
+            {
+                output += '<div class="ph-item">';
+
+                output += '<div class="ph-col-2 col">';
+                output += '<div class="ph-picture"></div></div>';
+
+
+                output += '<div class="ph-col-2 col">';
+                output += '<div class="ph-picture"></div></div>';
+
+
+                output += '<div class="ph-col-2 col">';
+                output += '<div class="ph-picture"></div></div>';
+
+
+                output += '<div class="ph-col-2 col">';
+                output += '<div class="ph-picture"></div></div>';
+
+
+
+
+                output += '</div>';
+
+            }
+            output += '</div>';
+            output += '</div>';
+            output += '</div>';
+            return output;
+        }
+
+
+
+
+    });
+</script>
