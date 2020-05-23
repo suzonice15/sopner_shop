@@ -17,6 +17,11 @@ class SettingController extends MX_Controller
 	public function default_setting()
 	{
 
+		$nai=file_get_contents('http://api.alquran.cloud/v1/quran/en.asad',true);
+		echo '<pre>';
+		print_r($nai);
+		exit();
+
 		$data['main'] = "Default Setting";
 		$data['active'] = "Update Setting";
 		$data['title'] = "Default Setting  Update form ";
